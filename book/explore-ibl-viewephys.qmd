@@ -1,10 +1,10 @@
 # Explore the IBL dataset with viewephys
 
 In this tutorial, we will download data from the [International Brain Laboratory (IBL)](https://www.internationalbrainlab.com/)
-and visualise it in [viewephys](https://pypi.org/project/viewephys/).
+and visualize it in [viewephys](https://pypi.org/project/viewephys/).
 
 The IBL is a consortium of neuroscience labs that collaborated to run a
-large, standardised set of behavioural and electrophysiology experiments, generating a huge open dataset.
+large, standardized set of behavioral and electrophysiology experiments, generating a huge open dataset.
 The IBL's [Brainwide Map](https://www.internationalbrainlab.com/brainwide-map) includes
 nearly 700 Neuropixels recordings collected across 12 labs, covering 279 brain areas.
 
@@ -46,9 +46,9 @@ and returns their paths.
 Here we use the selected PID as an example, but you could loop over the list
 of `pids` to download multiple datasets.
 
-## Visualising in viewephys
+## Visualizing in viewephys
 
-Next we will visualise the IBL data by streaming directly from the `ss` object
+Next we will visualize the IBL data by streaming directly from the `ss` object
 we created above. Run the viewing code in the same session as the setup code,
 for example by adding it to the same Jupyter notebook or Python script.
 
@@ -61,7 +61,7 @@ for example by adding it to the same Jupyter notebook or Python script.
 
 ![The viewephys viewer showing the destriped raw data snippet](images/viewephys_screen.png){width="120%"}
 
-Copy the visualisation code into your favourite IDE. Note that you will need
+Copy the visualization code into your favorite IDE. Note that you will need
 to make a small adjustment to the code depending on whether you are running in
 a notebook or through a script:
 
@@ -115,7 +115,7 @@ This is handy for comparing the raw, Butterworth-filtered and destriped windows 
 
 ### Cycling through the different preprocessing steps
 
-After using **Propagate** (`Ctrl+P`), all three windows should be synchronised.
+After using **Propagate** (`Ctrl+P`), all three windows should be synchronized.
 
 - Cycle through the windows using `Alt+Tab`. How different are they?
 - On the raw display, right-click on the data and look at individual traces. What can you say about the DC offset and grounding? The units are µV, and these probes saturate at 1200 µV. Can you spot any saturation events in the raw data?
@@ -123,7 +123,7 @@ After using **Propagate** (`Ctrl+P`), all three windows should be synchronised.
 
 ### Looking at different recordings in different brain regions
 
-You can select different probe insertions by changing the index `i` in `pid = pids[i]` to visualise different brain regions. Then recreate `ss` and rerun the viewing code for the selected insertion.
+You can select different probe insertions by changing the index `i` in `pid = pids[i]` to visualize different brain regions. Then recreate `ss` and rerun the viewing code for the selected insertion.
 
 What can you see for different insertions? Are there any quality issues with the data? How do the signal characteristics differ between regions?
 

@@ -8,6 +8,8 @@ project:
 execute:
   freeze: auto
 
+lang: en-US
+
 book:
   title: "OSSS Extracellular Electrophysiology Course 2026"
   author:

@@ -42,7 +42,7 @@ butt = scipy.signal.sosfiltfilt(sos, raw)
 # ibldsp.voltage.destripe runs the complete IBL pre-processing chain:
 #   • High-pass Butterworth (same as above)
 #   • ADC sample-shift correction (Neuropixels channels are not sampled simultaneously)
-#   • Spatial k-filter (removes stripe artefacts correlated across channels)
+#   • Spatial k-filter (removes stripe artifacts correlated across channels)
 #
 # Use the channel labels loaded for this insertion to identify bad channels.
 

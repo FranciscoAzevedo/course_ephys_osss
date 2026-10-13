@@ -28,7 +28,7 @@ which will be used in the [extended exercises](#extension-multi-day-tracking-and
 
 ## Exercise 1: Matching neurons with UnitMatchPy (~10 min)
 
-1. Open [`UMPy_example.ipynb`](https://github.com/EnnyvanBeest/UnitMatch/blob/main/UnitMatchPy/Demo%20Notebooks/UMPy_example.ipynb) in your favourite Python interpreter, pointed at the two AL032 sessions.
+1. Open [`UMPy_example.ipynb`](https://github.com/EnnyvanBeest/UnitMatch/blob/main/UnitMatchPy/Demo%20Notebooks/UMPy_example.ipynb) in your favorite Python interpreter, pointed at the two AL032 sessions.
 2. Follow the demo until you reach a plot that looks like a matrix of black and white dots.
 
 :::{.callout-tip}

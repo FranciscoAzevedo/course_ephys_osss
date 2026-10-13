@@ -51,7 +51,7 @@ extensions_dict = {
 analyzer.compute(extensions_dict)
 ```
 
-If you have annoying things like motion, artefacts, seperate shanks, a custom probe, multiple recordings, etc you'll need to modify this simple pipeline. But this is a good starting point! The end goal of a SpikeInterface pipeline is the `SortingAnalyzer` - and this code makes one!
+If you have annoying things like motion, artifacts, seperate shanks, a custom probe, multiple recordings, etc you'll need to modify this simple pipeline. But this is a good starting point! The end goal of a SpikeInterface pipeline is the `SortingAnalyzer` - and this code makes one!
 
 While we were preprocessing and spike sorting on Monday and Tuesday, we created an analyzer from a 90 second snippet of a recording from Adrian Duszkiewicz available at [this DANDIlink](https://dandiarchive.org/dandiset/000939/0.260512.1701/files?location=sub-A3702). You can keep using this if you'd like. However, it will be more fun (and realistic) to use a longer recording. I've made an analyzer computed using the same recording as we used earlier in the week, but sorted using the full 2 hour duration of the recording. You can download it [HERE](https://zenodo.org/records/21908762) (file name `http://full_analyzer_lupin_000939.zarr.zip`), or it's also on a usb stick in the room. Whether you use the short or long analyzer, please make a note of where it is stored. We'll say that the analyzer is at `path/to/full_analyzer_lupin_000939.zarr`. Change this when you see it.
 
@@ -157,7 +157,7 @@ Note that some people call units "clusters" or "putative neurons".
 
 Common "mistakes" that spike sorters make are:
 
-  1) Include a unit which is clearly noise or caused by an artefact
+  1) Include a unit which is clearly noise or caused by an artifact
   2) Take the spikes from one neuron but sorts them into two units (over-splitting)
   3) Takes the spikes from two neurons but sorts them into one unit (over-merging)
 
@@ -167,9 +167,9 @@ To counter these errors we need to
   2) Merge over-split units
   3) Split over-merged units
 
-In SpikeInterface a **Curation** is a list of decisions, formalised into a [Curation class](https://spikeinterface.readthedocs.io/en/stable/modules/curation.html#curation-format) (which we won't worry much about). These decisions are labels, merges and splits. As we proceed, we'll create **Curation**s by using the GUI or by using tools inside SpikeInterface.
+In SpikeInterface a **Curation** is a list of decisions, formalized into a [Curation class](https://spikeinterface.readthedocs.io/en/stable/modules/curation.html#curation-format) (which we won't worry much about). These decisions are labels, merges and splits. As we proceed, we'll create **Curation**s by using the GUI or by using tools inside SpikeInterface.
 
-## Manual Labelling
+## Manual Labeling
 
 First, we will try to attach quality labels to units using some different approaches. The labels we'll use are
 
@@ -222,7 +222,7 @@ The auto-correlogram helps you see these "refractory period violations". To make
 
 ![The auto-correlogram of a not-good unit](images/curate/curate_badcorr.png){width="50%"}
 
-Whether the "not good" units should be labelled "noise" or "mua" will depend on other properties.
+Whether the "not good" units should be labeled "noise" or "mua" will depend on other properties.
 
 ### Curation: templates
 
@@ -230,9 +230,9 @@ The spatio-temporal electrical signal we measure when a neuron spikes is called 
 
 ![The template of a "good" unit](images/curate/curate_goodtemplate.png)
 
-In the left plot, the squares represent channels on the probe. Each colourful circle represents the (approximate) location of each unit. We have selected the purple unit with a white boundary. In the middle plot, the template of the unit is plotted on several channels. The layout of the channels in the middle plot match the layout in the left plot. In the right plot, we plot the template on the channel where the template is "biggest".
+In the left plot, the squares represent channels on the probe. Each colorful circle represents the (approximate) location of each unit. We have selected the purple unit with a white boundary. In the middle plot, the template of the unit is plotted on several channels. The layout of the channels in the middle plot match the layout in the left plot. In the right plot, we plot the template on the channel where the template is "biggest".
 
-We see that the purple unit location on the probe matches where the peak of the signal is on the template plot. This unit looks "good" (to me) because 1) it's temporally localized (the signal is localised in the x-axis) 2) it has spatial decay (the signal, and its peak gets smaller as you move away from the "biggest" channel) 3) it has a trough, then a peak 4) it goes to zero on both sides of the x-axis. Note on the "main channel" view we can see that the unit's extrema value is -60uV.
+We see that the purple unit location on the probe matches where the peak of the signal is on the template plot. This unit looks "good" (to me) because 1) it's temporally localized (the signal is localized in the x-axis) 2) it has spatial decay (the signal, and its peak gets smaller as you move away from the "biggest" channel) 3) it has a trough, then a peak 4) it goes to zero on both sides of the x-axis. Note on the "main channel" view we can see that the unit's extrema value is -60uV.
 
 Here's clear noise:
 
@@ -366,7 +366,7 @@ run_mainwindow(
 )
 ```
 
-There are also plotting tools so that you can see _why_ Bombcell labelled your units as it did. For example, here is an "upset plot":
+There are also plotting tools so that you can see _why_ Bombcell labeled your units as it did. For example, here is an "upset plot":
 
 ```{python}
 si.plot_bombcell_labels_upset(
@@ -384,7 +384,7 @@ default_thresholds = si.bombcell_get_default_thresholds()
 pprint(default_thresholds)
 ```
 
-Then decide which to change, and feed these into your labelling function:
+Then decide which to change, and feed these into your labeling function:
 
 ```{python}
 custom_thresholds = {
@@ -420,9 +420,9 @@ bombcell_labels = si.bombcell_label_units(
 
 ### UnitRefine: Train yourself out of a job
 
-In UnitRefine ([preprint](https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2) + [gitub repo](https://github.com/anoushkajain/UnitRefine.git)), you start with a small (say, 1000 units) manually labelled dataset. UnitRefine then use machine learning to train a classifier based on this labelled data and the metrics of each unit. Then these classifiers should mimic the people who originally did the labelling. 
+In UnitRefine ([preprint](https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2) + [gitub repo](https://github.com/anoushkajain/UnitRefine.git)), you start with a small (say, 1000 units) manually labeled dataset. UnitRefine then use machine learning to train a classifier based on this labeled data and the metrics of each unit. Then these classifiers should mimic the people who originally did the labeling.
 
-The hardest problem isn't training the classifiers - it's getting good labelled data. Studies show that humans agree approximately 80% of the time [Jain et al., 2025](https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2), so this gives a ceiling on how well a classifier can mimic a group of manual curators.
+The hardest problem isn't training the classifiers - it's getting good labeled data. Studies show that humans agree approximately 80% of the time [Jain et al., 2025](https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2), so this gives a ceiling on how well a classifier can mimic a group of manual curators.
 
 There are some pre-trained classifiers available on [HuggingFaceHub from Anoushka Jain](https://huggingface.co/AnoushkaJain3). The underlying data was curated by five different people. Let's try it out:
 
@@ -448,7 +448,7 @@ Another option is to train your own classifier. When you train yourself you can 
 
 ### Comparing methods
 
-We've now tried three labelling methods and we've been storing their results in the analyzer. So, we can now compare all three methods in the GUI. 
+We've now tried three labeling methods and we've been storing their results in the analyzer. So, we can now compare all three methods in the GUI.
 
 Here's a unit that gets a different label for each method:
 
@@ -519,7 +519,7 @@ We've been implicitly using a "functional" curation approach. This means: don't 
   - **Try different approaches**: you can try out different things. Keep one manual Curation file and one Curation file generated by an alogorithm, then switch between them and check if your downstream scientific results don't change.
   - **Change your mind**: if you change your mind about your curation, you don't need to redo your sorting, you just need to edit your curation.
 
-When labelling, there isn't much different between our approach and just editing the analyzer, but you feel the difference more when you merge and split.
+When labeling, there isn't much different between our approach and just editing the analyzer, but you feel the difference more when you merge and split.
 
 We can now update our mantra:
 

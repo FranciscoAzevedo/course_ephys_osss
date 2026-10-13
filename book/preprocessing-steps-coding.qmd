@@ -104,7 +104,7 @@ def plot_prepro(recordings, time_range, return_in_uV=True, clim=None):
     time_range: 
         A tuple with the (start, stop) times of the data to plot.
     clim:
-        A tuple with the (min, max) colour limits for the heatmap.
+        A tuple with the (min, max) color limits for the heatmap.
     """
     fig, axes = plt.subplots(
         1, len(recordings), 
@@ -354,7 +354,7 @@ returns a list of ids.
 The recording probe can move during an experiment. The major axis of movement is typically the direction along the probe's insertion path, as this offers less physical resistance than moving into the surrounding brain. Movement along this axis has the effect of shifting the recorded waveforms up or down the probe.
 
 The majority of motion correction algorithms are based around the movement of detected spike waveforms. The pattern of detected spikes is used as a 'barcode' across time, allowing motion to be tracked through the recording (see this 
-[infographic](https://spikeinterface.readthedocs.io/en/stable/_images/motion_correction_overview.png) for details - the grey dots in the plots are individual spikes which have been detected). Most motion correction algorithms have three main steps:
+[infographic](https://spikeinterface.readthedocs.io/en/stable/_images/motion_correction_overview.png) for details - the gray dots in the plots are individual spikes which have been detected). Most motion correction algorithms have three main steps:
 
 - **Spike detection and localization**: This step detects spikes in the data and estimates their physical location in space (x, y, z coordinates) from the waveform.
 
@@ -428,7 +428,7 @@ In our case, if we compute the drift across the entire recording we get the belo
 :::
 
 We see that there is little drift in the recording, and that motion correction has
-in fact introduced an artefact around the 4000 second mark visible in the top-right plot.
+in fact introduced an artifact around the 4000 second mark visible in the top-right plot.
 
 This highlights an important point: if the drift plots for your
 recordings indicate little drift, you may want to consider turning off motion correction.
