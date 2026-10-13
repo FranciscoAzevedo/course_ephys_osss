@@ -12,9 +12,9 @@ The preprocessing steps we will explore in this chapter are:
 - **saturation detection**: Detect periods in the recording where the electronics were saturated (i.e. the voltage exceeds the range
 of the recording electronics). We detect saturation periods on the raw recording, and set any detected periods to zero after filtering.
 
-- **bandpass filtering**: Filters out low-frequency oscillations (e.g. 50-60 Hz noise) and high-frequency oscillations (e.g. noise spikes) from the data. Applied separately per channel.
-
 - **bad channel detection** : Automatically detect channels that are dead, noisy or out-of-brain. These bad channels can be removed or interpolated (i.e 'filled in' using the data from surrounding channels).
+
+- **bandpass filtering**: Filters out low-frequency oscillations (e.g. 50-60 Hz noise) and high-frequency oscillations (e.g. noise spikes) from the data. Applied separately per channel.
 
 - **common median referencing**: Removes noise that takes the form of stripes through the data (i.e. occurring on all channels for a short period of time). This is applied across all channels, separately per time point.
 
@@ -169,15 +169,78 @@ plot_prepro(
 )
 ```
 
+## Bad Channel Detection
+
+Individual recording electrodes on a probe sometimes break and become 'dead' (no signal), 'noise' (excessive electrical noise)
+or may be 'out of brain' (i.e. a contiguous set of channels at the end of the probe with no signal, indicating they are not in brain tissue).
+In our case, there is a small number of channels at the top of the previous plot whose traces look different than all the rest of
+the signal. These are likely out of the brain.
+
+The [IBL have developed an algorithm](https://figshare.com/articles/online_resource/Spike_sorting_pipeline_for_the_International_Brain_Laboratory/19705522?file=49783080) for automatically detecting bad channels, which has been ported to SpikeInterface.
+
+First, let's use the [`detect_bad_channels()`](https://spikeinterface.readthedocs.io/en/latest/api.html#spikeinterface.preprocessing.detect_bad_channels) function on our data, printing a list of the channel label ("good", "out", "dead", "noise"), removing the bad channels and visualizing the traces:
+When we pass the raw recording to `detect_bad_channels` it will perform a 300 Hz highpass filter under the hood. This keeps the high-frequencies in the recording used to help find noisy channels, so we perform this step before bandpass filtering (below) in which the high frequencies are removed.
+
+```{python}
+
+bad_channel_ids_1, channel_labels_1 = spre.detect_bad_channels(recording)
+print("first attempt labels:\n", channel_labels_1)
+
+rec_bad_channels_removed_1 = recording.remove_channels(bad_channel_ids_1)
+
+TIME_RANGE = (49, 49.02)
+
+plot_prepro(
+    {"raw": recording,
+    "bad channels removed": rec_bad_channels_removed_1},
+    TIME_RANGE
+)
+```
+
+**It didn't work!** We can still see the dead channels on our recording. Why is this?
+
+The IBL algorithm was developed for Neuropixel probes (with 384 recording channels) but we are using Cambridge Neurotech 64-channel probes. As such, the default settings are not appropriate for our data, and we need to adjust them.
+
+The new values were found through trial and error. `n_neighbors` default is `11` so we reduced it for the 64-channel Cambridge Neurotech probe. We also set outside_channels_location="bottom". By convention the algorithm expects out-of-brain channels at the top of the depth-ordered channels (as on Neuropixels), but by this probe's channel-ordering convention they sit at the bottom (index 0). Finally, we reduced the thresholds through trial and error to ensure the dead and out-of-brain channels were flagged correctly (once set, this configuration should work for all recordings in this dataset, but of course we should always check).
+
+```{python}
+# Let's try again with different settings
+bad_channel_ids, channel_labels = spre.detect_bad_channels(
+    recording,
+    dead_channel_threshold=-0.15,
+    outside_channels_location="bottom",
+    outside_channel_threshold=-0.25,
+    n_neighbors=5
+)
+print("second attempt labels:\n", channel_labels)
+
+rec_bad_channels_removed = recording.remove_channels(bad_channel_ids)
+
+plot_prepro(
+    {"raw": recording,
+    "bad channels removed": rec_bad_channels_removed},
+    TIME_RANGE
+)
+
+```
+
+Now the dead channels, identifiable by visual inspection, are properly detected by the algorithm.
+
+::: {.callout-warning}
+This example demonstrates why it is critically important to **always visualize your data**
+to ensure the default arguments of the algorithms we are using are suitable for the recording.
+:::
+
+
 ## Bandpass filter
 
-First, let's have a look at the effect of bandpass filtering the data, using the [`bandpass_filter()`](https://spikeinterface.readthedocs.io/en/latest/api.html#spikeinterface.preprocessing.bandpass_filter) function. We will plot the first second of the data:
+Next, let's look at the effect of bandpass filtering after removing the bad channels, using the [`bandpass_filter()`](https://spikeinterface.readthedocs.io/en/latest/api.html#spikeinterface.preprocessing.bandpass_filter) function. We will plot the first second of the data:
 
 
 ```{python}
 
 recording_bp = spre.bandpass_filter(
-    recording, 
+    rec_bad_channels_removed,
     # commonly used values to filter noise 
     # while not affecting spikes
     freq_min=300, 
@@ -185,7 +248,7 @@ recording_bp = spre.bandpass_filter(
 ) 
 
 plot_prepro(
-    {"raw": recording, "filtered": recording_bp}, 
+    {"bad channels removed": rec_bad_channels_removed, "filtered": recording_bp},
     time_range=(0, 1)
 )
 
@@ -216,75 +279,12 @@ Plotting a shorter time window demonstrates how this improves resolution of indi
 
 ```{python}
 
-TIME_RANGE = (49, 49.02)
-
 plot_prepro(
-    {"raw": recording, "filtered": recording_bp}, 
+    {"bad channels removed": rec_bad_channels_removed, "filtered": recording_bp},
     time_range=TIME_RANGE
 )
 
 ```
-
-
-## Bad Channel Detection
-
-Individual recording electrodes on a probe sometimes break and become 'dead' (no signal), 'noise' (excessive electrical noise)
-or may be 'out of brain' (i.e. a contiguous set of channels at the end of the probe with no signal, indicating they are not in brain tissue). 
-In our case, there is a small number of channels at the top of the previous plot whose traces look different than all the rest of
-the signal. These are likely out of the brain.
-
-The [IBL have developed an algorithm](https://figshare.com/articles/online_resource/Spike_sorting_pipeline_for_the_International_Brain_Laboratory/19705522?file=49783080) for automatically detecting bad channels, which has been ported to SpikeInterface.
-
-First, let's use the [`detect_bad_channels()`](https://spikeinterface.readthedocs.io/en/latest/api.html#spikeinterface.preprocessing.detect_bad_channels) function on our data, printing a list of the channel label ("good", "out", "dead", "noise"), removing the bad channels and visualizing the traces:
-
-```{python}
-
-bad_channel_ids_1, channel_labels_1 = spre.detect_bad_channels(recording_bp)
-print("first attempt labels:\n", channel_labels_1)
-
-rec_clean_1 = recording_bp.remove_channels(bad_channel_ids_1)
-
-plot_prepro(
-    {"filtered": recording_bp, 
-    "bad channels removed": rec_clean_1}, 
-    TIME_RANGE
-)
-```
-
-**It didn't work!** We can still see the dead channels on our recording. Why is this? 
-
-The IBL algorithm was developed for Neuropixel probes (with 384 recording channels) but we are using Cambridge Neurotech 64-channel probes. As such, the default settings are not appropriate for our data, and we need to adjust them. 
-
-The new values were found through trial and error. `n_neighbors` default is `11` so we reduced it for the 64-channel Cambridge Neurotech probe. We also set outside_channels_location="bottom". By convention the algorithm expects out-of-brain channels at the top of the depth-ordered channels (as on Neuropixels), but by this probe's channel-ordering convention they sit at the bottom (index 0). Finally, we reduced the thresholds through trial and error to ensure the dead and out-of-brain channels were flagged correctly (once set, this configuration should work for all recordings in this dataset, but of course we should always check).
-
-```{python}
-# Let's try again with different settings
-bad_channel_ids, channel_labels = spre.detect_bad_channels(
-    recording_bp, 
-    dead_channel_threshold=-0.15,
-    outside_channels_location="bottom",
-    outside_channel_threshold=-0.25,
-    n_neighbors=5
-)
-print("second attempt labels:\n", channel_labels)
-
-rec_clean = recording_bp.remove_channels(bad_channel_ids)
-
-plot_prepro(
-    {"filtered": recording_bp, 
-    "bad channels removed": rec_clean},
-    TIME_RANGE
-)
-
-```
-
-Now the dead channels, identifiable by visual inspection, are properly detected by the algorithm.
-
-::: {.callout-warning}
-This example demonstrates why it is critically important to **always visualize your data**
-to ensure the default arguments of the algorithms we are using are suitable for the recording.
-:::
-
 
 ## Common average referencing
 
@@ -299,12 +299,12 @@ We can use SpikeInterface's [`common_reference()`](https://spikeinterface.readth
 ```{python}
 
 recording_cmr = spre.common_reference(
-    rec_clean, 
+    recording_bp,
     operator="median"
 )
 
 plot_prepro(
-    {"filtered": rec_clean, 
+    {"filtered": recording_bp,
     "recording_cmr": recording_cmr}, 
     TIME_RANGE
 )
@@ -376,7 +376,7 @@ Typically, non-rigid estimation algorithms break up the probe into sections and 
 ```{python}
 
 rec_corrected, motion_info = spre.correct_motion(
-    recording_cmr,
+    recording_zeroed,
     preset="dredge_fast",
     output_motion_info=True,
     # turn off non-rigid estimation
@@ -555,7 +555,7 @@ This could lead to a single unit being split into two during sorting.
 
 SpikeInterface makes it very easy to save preprocessed data, which is useful as applying 
 preprocessing to an entire long recording can take some time. Here we will save the data
-preprocessed with *bandpass filter*, *bad channel removal* and *common referencing* for use
+preprocessed with *bad channel removal*, *bandpass filtering* and *common referencing* for use
 later in the course. 
 
 In general, we can perform these lighter preprocessing steps in SpikeInterface
