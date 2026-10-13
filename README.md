@@ -13,11 +13,14 @@ To preview the website locally, run from the `book` folder:
 
 ```
 python -m pip install -r requirements.txt
+quarto render preprocessing-steps-presentation.qmd --to html --no-execute --embed-resources
 quarto render --to html
 ```
 (requires [Quarto](https://quarto.org/docs/get-started/) to be installed).
 
 This generates the website in `book/_site`. After a PR is merged into `main`, CI rebuilds the site and publishes it to `gh-pages` automatically.
+
+The first render command builds the preprocessing presentation page, which is linked from the preprocessing chapter but does not appear in the book navigation.
 
 ## Releasing a new version
 

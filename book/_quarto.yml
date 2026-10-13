@@ -3,6 +3,7 @@ project:
   output-dir: _site
   resources:
     - intro-slides.html
+    - preprocessing-steps-presentation.html
 
 execute:
   freeze: auto
@@ -82,20 +83,20 @@ book:
         url: https://www.internationalbrainlab.com/
   date: today
   date-format: "DD/MM/YYYY"
+  sidebar:
+    collapse-level: 2
   chapters:
     - index.qmd
     - setup.qmd
-    - introduction-presentation.qmd
     - pipeline-overview.qmd
-    - preprocessing-steps-presentation.qmd
     - preprocessing-steps-coding.qmd
-    - spike-sorting-presentation.qmd
     - spike-sorting-coding.qmd
-    - unitmatch-presentation.qmd
-    - unitmatch-coding.qmd
     - curation.qmd
     - pynapple.qmd
-    - electrophysiology-features.qmd
+    - part: "More to explore"
+      chapters:
+        - explore-ibl-viewephys.qmd
+        - unitmatch-coding.qmd
     - part: "Reference"
       chapters:
         - course-data.qmd

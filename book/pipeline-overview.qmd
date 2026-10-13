@@ -1,9 +1,11 @@
-# Pipeline overview (coding)
-\
+# Pipeline overview
+
 In this chapter we will use 
 [SpikeInterface](https://spikeinterface.readthedocs.io/en/stable/) to implement a standard spike sorting pipeline from start to finish. We will go through the key steps at a high level, while developing the theory and adding more advanced methods in the following chapters.
 
-We will load and preprocess the data, run spike sorting and compute quality metrics for assessing the sorting output. Let's get started!
+You can also check out the [introductory slides](intro-slides.html){target="_blank" rel="noopener"} for an overview of the extracellular electrophysiology technique.
+
+Now, we will load and preprocess the data, run spike sorting and compute quality metrics for assessing the sorting output. Let's get started!
 
 ## Data Loading and Exploration
 
