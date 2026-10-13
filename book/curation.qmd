@@ -147,13 +147,13 @@ So... what's a Curation. And why does it have a capital C?
 
 Spike sorters make mistakes -- sometimes lots of mistakes! So we need to look at the spike sorting output. Then we can adjust the sorter's default settings (then take a look at the results) in the hope that their output improves, or we can curate what comes out of them.
 
-See the [Glossary](glossary.qmd#units-neurons-and-clusters) for the course-wide terminology used below.
+See the [glossary entry on units](glossary.qmd#unit) for the course-wide terminology used below.
 It's helpful to remind ourselves what the approximate definitions of "neuron" and "unit" are:
 
   - **Neuron**: a neuron, an actual cell.
   - **Unit**: something a spike sorter thinks is a neuron
 
-Note that some people call units "clusters" or "putative neurons". 
+Note that some people call units "[clusters](glossary.qmd#cluster)" or "[putative neurons](glossary.qmd#putative-neuron)". 
 
 Common "mistakes" that spike sorters make are:
 
@@ -226,7 +226,7 @@ Whether the "not good" units should be labeled "noise" or "mua" will depend on o
 
 ### Curation: templates
 
-The spatio-temporal electrical signal we measure when a neuron spikes is called a waveform. The "template" is the average of all these waveforms. For high-density probes (e.g. NeuroPixels, other probes etc) the signal is spread across many channels. A "good" unit should have a template that looks like an (extra-cellular) action potential. Here's an example, plotted with the probe map and with the "maximum signal channel" plotted:
+The spatio-temporal electrical signal we measure when a neuron spikes is called a [waveform](glossary.qmd#waveform). The "[template](glossary.qmd#template)" is the average of all these waveforms. For high-density probes (e.g. NeuroPixels, other probes etc) the signal is spread across many channels. A "good" unit should have a template that looks like an (extra-cellular) action potential. Here's an example, plotted with the probe map and with the "maximum signal channel" plotted:
 
 ![The template of a "good" unit](images/curate/curate_goodtemplate.png)
 

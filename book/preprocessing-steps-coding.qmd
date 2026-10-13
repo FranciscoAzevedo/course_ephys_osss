@@ -171,8 +171,8 @@ plot_prepro(
 
 ## Bad Channel Detection
 
-Individual recording electrodes on a probe sometimes break and become 'dead' (no signal), 'noise' (excessive electrical noise)
-or may be 'out of brain' (i.e. a contiguous set of channels at the end of the probe with no signal, indicating they are not in brain tissue).
+Individual recording [electrodes](glossary.qmd#electrode) on a probe sometimes break and become 'dead' (no signal), 'noise' (excessive electrical noise)
+or may be 'out of brain' (i.e. a contiguous set of [channels](glossary.qmd#channel) at the end of the probe with no signal, indicating they are not in brain tissue).
 In our case, there is a small number of channels at the top of the previous plot whose traces look different than all the rest of
 the signal. These are likely out of the brain.
 
@@ -409,7 +409,7 @@ fig.suptitle("Motion correction output")
 ```
 
 
-In the top two plots, we see a spike raster plot before (left) and after (right) motion correction. Each dot indicates a spike, with its depth on the y-axis and recording time on the x-axis. 
+In the top two plots, we see a spike [raster plot](glossary.qmd#raster-plot) before (left) and after (right) motion correction. Each dot indicates a spike, with its depth on the y-axis and recording time on the x-axis. 
 
 The bottom left plot shows the estimated physical motion in μm over time.
 
