@@ -83,7 +83,7 @@ We can check the default parameters for any sorter with `get_default_sorter_para
 
 ```{python}
 
-ss.get_default_sorter_params("kilosort4")
+si.get_default_sorter_params("kilosort4")
 ```
 
 Because we have already bandpass filtered and common-referenced the data
@@ -94,7 +94,7 @@ correction:
 
 sorter_params = {"do_correction": False}
 
-sorting_KS4 = ss.run_sorter(
+sorting_KS4 = si.run_sorter(
     "kilosort4",
     recording_preprocessed,
     folder="results/sorter_KS4",
@@ -118,12 +118,12 @@ Let's do the same with `lupin`. Again, we can check its default
 parameters first:
 
 ```{python}
-ss.get_default_sorter_params("lupin")
+si.get_default_sorter_params("lupin")
 sorter_params = {
     "apply_motion_correction": False,
 }
 
-sorting_LUPIN = ss.run_sorter(
+sorting_LUPIN = si.run_sorter(
     "lupin",
     recording_preprocessed,
     folder="results/sorter_LUPIN",
@@ -145,7 +145,7 @@ sorter_params = {
     "apply_motion_correction": False,
 }
 
-sorting_SC2 = ss.run_sorter(
+sorting_SC2 = si.run_sorter(
     "spykingcircus2",
     recording_preprocessed,
     folder="results/sorter_SC2",
