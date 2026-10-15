@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Visualization and manual curation (coding) – OSSS Extracellular Electrophysiology Course 2026</title>
+<title>5&nbsp; Visualization and manual curation – OSSS Extracellular Electrophysiology Course 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -72,17 +72,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./pynapple.html" rel="next">
-<link href="./unitmatch-coding.html" rel="prev">
+<link href="./spike-sorting.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3d497cff885f6278d37568d0ef0763f8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fd0503e23dce65854c81c5baaade3bdf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -153,7 +153,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./curation.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and manual curation (coding)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./curation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualization and manual curation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -192,79 +192,66 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./introduction-presentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to electrophysiology (slides)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./pipeline-overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pipeline overview (coding)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./preprocessing-steps-presentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Preprocessing (slides)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pipeline overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./preprocessing-steps-coding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualisation of the raw data (coding)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Preprocessing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spike-sorting-presentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spike sorting (slides)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./spike-sorting-coding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spike sorting (coding)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unitmatch-presentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tracking neurons across days with (Deep)UnitMatch (slides)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unitmatch-coding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnitMatch (coding)</span></span></a>
+  <a href="./spike-sorting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Spike Sorting</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./curation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and manual curation (coding)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualization and manual curation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pynapple.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural analysis with Pynapple (coding)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./electrophysiology-features.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Electrophysiology Features (slides)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Neural analysis with Pynapple</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Reference</span></a>
+ <span class="menu-text">More to explore</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore-ibl-viewephys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Explore the IBL dataset with viewephys</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unitmatch-coding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">UnitMatch</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./course-data.html" class="sidebar-item-text sidebar-link">
@@ -289,27 +276,27 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#review-of-previous-material" id="toc-review-of-previous-material" class="nav-link active" data-scroll-target="#review-of-previous-material"><span class="header-section-number">10.1</span> Review of previous material</a></li>
-  <li><a href="#visualizing-the-analyzer-with-spikeinterface-gui" id="toc-visualizing-the-analyzer-with-spikeinterface-gui" class="nav-link" data-scroll-target="#visualizing-the-analyzer-with-spikeinterface-gui"><span class="header-section-number">10.2</span> Visualizing the Analyzer with SpikeInterface-GUI</a></li>
-  <li><a href="#why-curate" id="toc-why-curate" class="nav-link" data-scroll-target="#why-curate"><span class="header-section-number">10.3</span> Why curate?</a></li>
-  <li><a href="#manual-labelling" id="toc-manual-labelling" class="nav-link" data-scroll-target="#manual-labelling"><span class="header-section-number">10.4</span> Manual Labelling</a>
+  <li><a href="#review-of-previous-material" id="toc-review-of-previous-material" class="nav-link active" data-scroll-target="#review-of-previous-material"><span class="header-section-number">5.1</span> Review of previous material</a></li>
+  <li><a href="#visualizing-the-analyzer-with-spikeinterface-gui" id="toc-visualizing-the-analyzer-with-spikeinterface-gui" class="nav-link" data-scroll-target="#visualizing-the-analyzer-with-spikeinterface-gui"><span class="header-section-number">5.2</span> Visualizing the Analyzer with SpikeInterface-GUI</a></li>
+  <li><a href="#why-curate" id="toc-why-curate" class="nav-link" data-scroll-target="#why-curate"><span class="header-section-number">5.3</span> Why curate?</a></li>
+  <li><a href="#manual-labeling" id="toc-manual-labeling" class="nav-link" data-scroll-target="#manual-labeling"><span class="header-section-number">5.4</span> Manual Labeling</a>
   <ul class="collapse">
-  <li><a href="#curation-auto-correlograms" id="toc-curation-auto-correlograms" class="nav-link" data-scroll-target="#curation-auto-correlograms"><span class="header-section-number">10.4.1</span> Curation: auto-correlograms</a></li>
-  <li><a href="#curation-templates" id="toc-curation-templates" class="nav-link" data-scroll-target="#curation-templates"><span class="header-section-number">10.4.2</span> Curation: templates</a></li>
-  <li><a href="#curation-distributions" id="toc-curation-distributions" class="nav-link" data-scroll-target="#curation-distributions"><span class="header-section-number">10.4.3</span> Curation: distributions</a></li>
-  <li><a href="#exercise-manually-curate-the-analyzer-for-10-minutes" id="toc-exercise-manually-curate-the-analyzer-for-10-minutes" class="nav-link" data-scroll-target="#exercise-manually-curate-the-analyzer-for-10-minutes"><span class="header-section-number">10.4.4</span> Exercise: manually curate the analyzer for 10 minutes</a></li>
+  <li><a href="#curation-auto-correlograms" id="toc-curation-auto-correlograms" class="nav-link" data-scroll-target="#curation-auto-correlograms"><span class="header-section-number">5.4.1</span> Curation: auto-correlograms</a></li>
+  <li><a href="#curation-templates" id="toc-curation-templates" class="nav-link" data-scroll-target="#curation-templates"><span class="header-section-number">5.4.2</span> Curation: templates</a></li>
+  <li><a href="#curation-distributions" id="toc-curation-distributions" class="nav-link" data-scroll-target="#curation-distributions"><span class="header-section-number">5.4.3</span> Curation: distributions</a></li>
+  <li><a href="#exercise-manually-curate-the-analyzer-for-10-minutes" id="toc-exercise-manually-curate-the-analyzer-for-10-minutes" class="nav-link" data-scroll-target="#exercise-manually-curate-the-analyzer-for-10-minutes"><span class="header-section-number">5.4.4</span> Exercise: manually curate the analyzer for 10 minutes</a></li>
   </ul></li>
-  <li><a href="#automated-labels-with-metrics" id="toc-automated-labels-with-metrics" class="nav-link" data-scroll-target="#automated-labels-with-metrics"><span class="header-section-number">10.5</span> Automated labels with metrics</a>
+  <li><a href="#automated-labels-with-metrics" id="toc-automated-labels-with-metrics" class="nav-link" data-scroll-target="#automated-labels-with-metrics"><span class="header-section-number">5.5</span> Automated labels with metrics</a>
   <ul class="collapse">
-  <li><a href="#thresholding" id="toc-thresholding" class="nav-link" data-scroll-target="#thresholding"><span class="header-section-number">10.5.1</span> Thresholding</a></li>
-  <li><a href="#bombcell-extreme-thresholding" id="toc-bombcell-extreme-thresholding" class="nav-link" data-scroll-target="#bombcell-extreme-thresholding"><span class="header-section-number">10.5.2</span> Bombcell: <em>extreme</em> Thresholding</a></li>
-  <li><a href="#unitrefine-train-yourself-out-of-a-job" id="toc-unitrefine-train-yourself-out-of-a-job" class="nav-link" data-scroll-target="#unitrefine-train-yourself-out-of-a-job"><span class="header-section-number">10.5.3</span> UnitRefine: Train yourself out of a job</a></li>
-  <li><a href="#comparing-methods" id="toc-comparing-methods" class="nav-link" data-scroll-target="#comparing-methods"><span class="header-section-number">10.5.4</span> Comparing methods</a></li>
+  <li><a href="#thresholding" id="toc-thresholding" class="nav-link" data-scroll-target="#thresholding"><span class="header-section-number">5.5.1</span> Thresholding</a></li>
+  <li><a href="#bombcell-extreme-thresholding" id="toc-bombcell-extreme-thresholding" class="nav-link" data-scroll-target="#bombcell-extreme-thresholding"><span class="header-section-number">5.5.2</span> Bombcell: <em>extreme</em> Thresholding</a></li>
+  <li><a href="#unitrefine-train-yourself-out-of-a-job" id="toc-unitrefine-train-yourself-out-of-a-job" class="nav-link" data-scroll-target="#unitrefine-train-yourself-out-of-a-job"><span class="header-section-number">5.5.3</span> UnitRefine: Train yourself out of a job</a></li>
+  <li><a href="#comparing-methods" id="toc-comparing-methods" class="nav-link" data-scroll-target="#comparing-methods"><span class="header-section-number">5.5.4</span> Comparing methods</a></li>
   </ul></li>
-  <li><a href="#merging" id="toc-merging" class="nav-link" data-scroll-target="#merging"><span class="header-section-number">10.6</span> Merging</a></li>
-  <li><a href="#splitting" id="toc-splitting" class="nav-link" data-scroll-target="#splitting"><span class="header-section-number">10.7</span> Splitting</a></li>
-  <li><a href="#functional-curation-philosophy" id="toc-functional-curation-philosophy" class="nav-link" data-scroll-target="#functional-curation-philosophy"><span class="header-section-number">10.8</span> “Functional” Curation philosophy</a></li>
-  <li><a href="#make-and-apply-a-curation" id="toc-make-and-apply-a-curation" class="nav-link" data-scroll-target="#make-and-apply-a-curation"><span class="header-section-number">10.9</span> Make and apply a Curation</a></li>
+  <li><a href="#merging" id="toc-merging" class="nav-link" data-scroll-target="#merging"><span class="header-section-number">5.6</span> Merging</a></li>
+  <li><a href="#splitting" id="toc-splitting" class="nav-link" data-scroll-target="#splitting"><span class="header-section-number">5.7</span> Splitting</a></li>
+  <li><a href="#functional-curation-philosophy" id="toc-functional-curation-philosophy" class="nav-link" data-scroll-target="#functional-curation-philosophy"><span class="header-section-number">5.8</span> “Functional” Curation philosophy</a></li>
+  <li><a href="#make-and-apply-a-curation" id="toc-make-and-apply-a-curation" class="nav-link" data-scroll-target="#make-and-apply-a-curation"><span class="header-section-number">5.9</span> Make and apply a Curation</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +305,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and manual curation (coding)</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualization and manual curation</span></h1>
 </div>
 
 
@@ -338,10 +325,10 @@ window.Quarto = {
 <p><em>Mantra of the day</em>: SpikeInterface-GUI is used to create a <strong>Curation</strong> file.</p>
 <p>We’ll come back to this…</p>
 <p>The goal of today is to take a look at our spike sorting results using SpikeInterface-GUI. Alternative GUIs include <a href="https://github.com/cortex-lab/phy">Phy</a> and <a href="https://github.com/magland/sortingview">SortingView</a>. Once we look at the sortings, we’ll realise that all spike sorters make mistakes. To try and remedy some of these mistakes, we’ll curate the output. Before getting started, let’s do a very quick review of what we’ve done so far so that we’re all on the same page.</p>
-<section id="review-of-previous-material" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="review-of-previous-material"><span class="header-section-number">10.1</span> Review of previous material</h2>
+<section id="review-of-previous-material" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="review-of-previous-material"><span class="header-section-number">5.1</span> Review of previous material</h2>
 <p>On Monday and Tuesday we saw how to take raw ephys data, preprocess it, sort it and compute properties of that sorting. When you’re making a spike sorting pipeline you have lots of things to check and decisions to make. But once you’ve got the pipeline fixed, the final code is often quite simple. Here’s an example of a full basic pipeline for a chronic recording:</p>
-<div id="982b3c4b" class="cell" data-execution_count="1">
+<div id="db118827" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spikeinterface.full <span class="im">as</span> si</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>raw_recording <span class="op">=</span> si.read_nwb(<span class="st">'path/to/data/'</span>)</span>
@@ -377,15 +364,15 @@ window.Quarto = {
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>analyzer.compute(extensions_dict)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>If you have annoying things like motion, artefacts, seperate shanks, a custom probe, multiple recordings, etc you’ll need to modify this simple pipeline. But this is a good starting point! The end goal of a SpikeInterface pipeline is the <code>SortingAnalyzer</code> - and this code makes one!</p>
+<p>If you have annoying things like motion, artifacts, seperate shanks, a custom probe, multiple recordings, etc you’ll need to modify this simple pipeline. But this is a good starting point! The end goal of a SpikeInterface pipeline is the <code>SortingAnalyzer</code> - and this code makes one!</p>
 <p>While we were preprocessing and spike sorting on Monday and Tuesday, we created an analyzer from a 90 second snippet of a recording from Adrian Duszkiewicz available at <a href="https://dandiarchive.org/dandiset/000939/0.260512.1701/files?location=sub-A3702">this DANDIlink</a>. You can keep using this if you’d like. However, it will be more fun (and realistic) to use a longer recording. I’ve made an analyzer computed using the same recording as we used earlier in the week, but sorted using the full 2 hour duration of the recording. You can download it <a href="https://zenodo.org/records/21908762">HERE</a> (file name <code>http://full_analyzer_lupin_000939.zarr.zip</code>), or it’s also on a usb stick in the room. Whether you use the short or long analyzer, please make a note of where it is stored. We’ll say that the analyzer is at <code>path/to/full_analyzer_lupin_000939.zarr</code>. Change this when you see it.</p>
 <p><em>Mantra of the day</em>: SpikeInterface-GUI is used to create a <strong>Curation</strong> file.</p>
 <p>So… what’s SpikeInterface-GUI?</p>
 </section>
-<section id="visualizing-the-analyzer-with-spikeinterface-gui" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="visualizing-the-analyzer-with-spikeinterface-gui"><span class="header-section-number">10.2</span> Visualizing the Analyzer with SpikeInterface-GUI</h2>
+<section id="visualizing-the-analyzer-with-spikeinterface-gui" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="visualizing-the-analyzer-with-spikeinterface-gui"><span class="header-section-number">5.2</span> Visualizing the Analyzer with SpikeInterface-GUI</h2>
 <p>We’ll use SpikeInterface-GUI to visualize our spike sorting results. Read more <a href="https://github.com/SpikeInterface/spikeinterface-gui/">on the SpikeInterface-GUI github page</a>. When building our Python environment, SpikeInterface-GUI was already included, so we should be able to run it from the terminal by activating our environment (if it’s not already active) then running:</p>
-<div id="04f8a860" class="cell" data-execution_count="2">
+<div id="b5410620" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sigui path<span class="op">/</span>to<span class="op">/</span>full_analyzer_lupin_000939.zarr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This launches the GUI in “visualization” mode. Something like the following window should have appeared:</p>
@@ -398,7 +385,7 @@ window.Quarto = {
 <p>The window consists of many <strong>Views</strong>. Roughly: each View displays properties from one of the analyzer extensions.</p>
 <p>We’ll now explore the GUI together at the workshop. If you’re not at the workshop, one key piece of information is that each View has a little box with a question mark in it. Click it to find out more about each View, including useful keyboard shortcuts.</p>
 <p>You can also run the GUI from a Python script or Jupyter notebook, like so:</p>
-<div id="10932e4a" class="cell" data-execution_count="3">
+<div id="08805fb1" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spikeinterface.full <span class="im">as</span> si</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spikeinterface_gui <span class="im">import</span> run_mainwindow</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -421,7 +408,7 @@ window.Quarto = {
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The GUI supports 27 (and counting!) different Views, which you can lay out (in a Layout) however you’d like. We have some pre-defined layouts which you can try out, e.g.:</p>
-<div id="c1c96b52" class="cell" data-execution_count="4">
+<div id="608e992d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sigui <span class="op">--</span>layout<span class="op">-</span>preset unit<span class="op">-</span>focus path<span class="op">/</span>to<span class="op">/</span>full_analyzer_lupin_000939.zarr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The available layout-presets are “unit-focus”, “??” and “??”.</p>
@@ -437,7 +424,7 @@ window.Quarto = {
     "zone8": []
 }</code></pre>
 <p>We simply save the layout dictionary in a json file (by copying and pasting the text into a empty file - I’ll call it “my_custom_layout.json”) and point to it using the terminal:</p>
-<div id="d8072c4e" class="cell" data-execution_count="5">
+<div id="4b7645af" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sigui <span class="op">--</span>layout<span class="op">-</span><span class="bu">file</span> path<span class="op">/</span>to<span class="op">/</span>my_custom_layout.json path<span class="op">/</span>to<span class="op">/</span>full_analyzer_lupin_000939.zarr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>When run, you should get a window that looks like this:</p>
@@ -460,18 +447,18 @@ window.Quarto = {
 <p><em>Mantra of the day</em>: SpikeInterface-GUI is used to create a <strong>Curation</strong> file.</p>
 <p>So… what’s a Curation. And why does it have a capital C?</p>
 </section>
-<section id="why-curate" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="why-curate"><span class="header-section-number">10.3</span> Why curate?</h2>
+<section id="why-curate" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="why-curate"><span class="header-section-number">5.3</span> Why curate?</h2>
 <p>Spike sorters make mistakes – sometimes lots of mistakes! So we need to look at the spike sorting output. Then we can adjust the sorter’s default settings (then take a look at the results) in the hope that their output improves, or we can curate what comes out of them.</p>
-<p>See the <a href="./glossary.html#units-neurons-and-clusters">Glossary</a> for the course-wide terminology used below. It’s helpful to remind ourselves what the approximate definitions of “neuron” and “unit” are:</p>
+<p>See the <a href="./glossary.html#unit">glossary entry on units</a> for the course-wide terminology used below. It’s helpful to remind ourselves what the approximate definitions of “neuron” and “unit” are:</p>
 <ul>
 <li><strong>Neuron</strong>: a neuron, an actual cell.</li>
 <li><strong>Unit</strong>: something a spike sorter thinks is a neuron</li>
 </ul>
-<p>Note that some people call units “clusters” or “putative neurons”.</p>
+<p>Note that some people call units “<a href="./glossary.html#cluster">clusters</a>” or “<a href="./glossary.html#putative-neuron">putative neurons</a>”.</p>
 <p>Common “mistakes” that spike sorters make are:</p>
 <ol type="1">
-<li>Include a unit which is clearly noise or caused by an artefact</li>
+<li>Include a unit which is clearly noise or caused by an artifact</li>
 <li>Take the spikes from one neuron but sorts them into two units (over-splitting)</li>
 <li>Takes the spikes from two neurons but sorts them into one unit (over-merging)</li>
 </ol>
@@ -481,10 +468,10 @@ window.Quarto = {
 <li>Merge over-split units</li>
 <li>Split over-merged units</li>
 </ol>
-<p>In SpikeInterface a <strong>Curation</strong> is a list of decisions, formalised into a <a href="https://spikeinterface.readthedocs.io/en/stable/modules/curation.html#curation-format">Curation class</a> (which we won’t worry much about). These decisions are labels, merges and splits. As we proceed, we’ll create <strong>Curation</strong>s by using the GUI or by using tools inside SpikeInterface.</p>
+<p>In SpikeInterface a <strong>Curation</strong> is a list of decisions, formalized into a <a href="https://spikeinterface.readthedocs.io/en/stable/modules/curation.html#curation-format">Curation class</a> (which we won’t worry much about). These decisions are labels, merges and splits. As we proceed, we’ll create <strong>Curation</strong>s by using the GUI or by using tools inside SpikeInterface.</p>
 </section>
-<section id="manual-labelling" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="manual-labelling"><span class="header-section-number">10.4</span> Manual Labelling</h2>
+<section id="manual-labeling" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="manual-labeling"><span class="header-section-number">5.4</span> Manual Labeling</h2>
 <p>First, we will try to attach quality labels to units using some different approaches. The labels we’ll use are</p>
 <ul>
 <li><strong>good</strong>: this unit looks like a single, well sorted neuron</li>
@@ -497,7 +484,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip&nbsp;10.1: The curation you use depends on your science
+Tip&nbsp;5.1: The curation you use depends on your science
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -510,11 +497,11 @@ Tip&nbsp;10.1: The curation you use depends on your science
 </div>
 </div>
 <p>To make a Curation, we launch SpikeInterface-GUI in “curation” mode. We can do that either in the terminal</p>
-<div id="2e1626d2" class="cell" data-execution_count="6">
+<div id="9e435dc6" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sigui <span class="op">--</span>curation path<span class="op">/</span>to<span class="op">/</span>full_analyzer_lupin_000939.zarr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Or in a python script</p>
-<div id="23b9622a" class="cell" data-execution_count="7">
+<div id="8b22e1d5" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spikeinterface.full <span class="im">as</span> si</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spikeinterface_gui <span class="im">import</span> run_mainwindow</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -525,8 +512,8 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>“Curation mode” allows us to label units (and merge and split them). We can label a unit as “good” by typing “g”, “mua” by typing “m” and “noise” by typing “n”. We’ll now all manually curate our analyzers, but how do we determine if a unit is “good”, “mua” or “noise”?</p>
-<section id="curation-auto-correlograms" class="level3" data-number="10.4.1">
-<h3 data-number="10.4.1" class="anchored" data-anchor-id="curation-auto-correlograms"><span class="header-section-number">10.4.1</span> Curation: auto-correlograms</h3>
+<section id="curation-auto-correlograms" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="curation-auto-correlograms"><span class="header-section-number">5.4.1</span> Curation: auto-correlograms</h3>
 <p>After spiking, a neuron has to <a href="https://en.wikipedia.org/wiki/Refractory_period_(physiology)">rest for a while</a>. So if a unit has two spikes within e.g.&nbsp;1ms of each other, that’s a sign that something in the sorting has gone wrong since it is not physiologically possible for neurons to fire that rapidly.</p>
 <p>The auto-correlogram helps you see these “refractory period violations”. To make the auto-correlogram plot, you ask: how many spikes occur between 0-1ms after another spike. Count them and plot them as a bar. Then: how many spikes occurs between 1-2ms after another spike? Then 2-3ms? And so on. Here’s a not-too-busy auto-correlogram:</p>
 <div class="quarto-figure quarto-figure-center">
@@ -548,19 +535,19 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <figcaption>The auto-correlogram of a not-good unit</figcaption>
 </figure>
 </div>
-<p>Whether the “not good” units should be labelled “noise” or “mua” will depend on other properties.</p>
+<p>Whether the “not good” units should be labeled “noise” or “mua” will depend on other properties.</p>
 </section>
-<section id="curation-templates" class="level3" data-number="10.4.2">
-<h3 data-number="10.4.2" class="anchored" data-anchor-id="curation-templates"><span class="header-section-number">10.4.2</span> Curation: templates</h3>
-<p>The spatio-temporal electrical signal we measure when a neuron spikes is called a waveform. The “template” is the average of all these waveforms. For high-density probes (e.g.&nbsp;NeuroPixels, other probes etc) the signal is spread across many channels. A “good” unit should have a template that looks like an (extra-cellular) action potential. Here’s an example, plotted with the probe map and with the “maximum signal channel” plotted:</p>
+<section id="curation-templates" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="curation-templates"><span class="header-section-number">5.4.2</span> Curation: templates</h3>
+<p>The spatio-temporal electrical signal we measure when a neuron spikes is called a <a href="./glossary.html#waveform">waveform</a>. The “<a href="./glossary.html#template">template</a>” is the average of all these waveforms. For high-density probes (e.g.&nbsp;NeuroPixels, other probes etc) the signal is spread across many channels. A “good” unit should have a template that looks like an (extra-cellular) action potential. Here’s an example, plotted with the probe map and with the “maximum signal channel” plotted:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/curate/curate_goodtemplate.png" class="img-fluid figure-img"></p>
 <figcaption>The template of a “good” unit</figcaption>
 </figure>
 </div>
-<p>In the left plot, the squares represent channels on the probe. Each colourful circle represents the (approximate) location of each unit. We have selected the purple unit with a white boundary. In the middle plot, the template of the unit is plotted on several channels. The layout of the channels in the middle plot match the layout in the left plot. In the right plot, we plot the template on the channel where the template is “biggest”.</p>
-<p>We see that the purple unit location on the probe matches where the peak of the signal is on the template plot. This unit looks “good” (to me) because 1) it’s temporally localized (the signal is localised in the x-axis) 2) it has spatial decay (the signal, and its peak gets smaller as you move away from the “biggest” channel) 3) it has a trough, then a peak 4) it goes to zero on both sides of the x-axis. Note on the “main channel” view we can see that the unit’s extrema value is -60uV.</p>
+<p>In the left plot, the squares represent channels on the probe. Each colorful circle represents the (approximate) location of each unit. We have selected the purple unit with a white boundary. In the middle plot, the template of the unit is plotted on several channels. The layout of the channels in the middle plot match the layout in the left plot. In the right plot, we plot the template on the channel where the template is “biggest”.</p>
+<p>We see that the purple unit location on the probe matches where the peak of the signal is on the template plot. This unit looks “good” (to me) because 1) it’s temporally localized (the signal is localized in the x-axis) 2) it has spatial decay (the signal, and its peak gets smaller as you move away from the “biggest” channel) 3) it has a trough, then a peak 4) it goes to zero on both sides of the x-axis. Note on the “main channel” view we can see that the unit’s extrema value is -60uV.</p>
 <p>Here’s clear noise:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -578,8 +565,8 @@ Tip&nbsp;10.1: The curation you use depends on your science
 </div>
 <p>Here, there is some spatial decay. But temporally, it doesn’t start from zero and it doesn’t decay to zero smoothly. The unit’s peak is about -20uV, so it’s much smaller than the good unit we saw earlier. These small units are more likely to get some noise mixed into them (because they are harder to distinguish from noise). So maybe it’s a real unit with some noise mixed in? Or maybe it’s just a good unit which is further away from the probe. You need to look at more plots to decide on this one…</p>
 </section>
-<section id="curation-distributions" class="level3" data-number="10.4.3">
-<h3 data-number="10.4.3" class="anchored" data-anchor-id="curation-distributions"><span class="header-section-number">10.4.3</span> Curation: distributions</h3>
+<section id="curation-distributions" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="curation-distributions"><span class="header-section-number">5.4.3</span> Curation: distributions</h3>
 <p>We have computed three spike distributions: spike amplitudes, amplitude scalings and spike locations. These are features <em>per spike</em>. E.g. the spike locations is the (estimated) x,y location of each spike on the probe while the spike amplitude is the magnitude of the (preprocessed) signal at the spike time (on the channel the unit is “maximal” on). These distributions can warn us of potential problems with the sorting. Here is a spike amplitudes distribution. Spike times are on the x-axis while spike amplitude is on the y-axis. On the far right, we plot a binned histogram of spike amplitudes which gives us a overall summary of the data.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -598,14 +585,14 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <p>Here, the unit is present during the full recording. That’s a good sign. But the distribution seems to “split”, starting near <code>t=6000s</code>. On the left it looks like a unimodal normal distribution (that’s what we expect). But on the right it seems to be bimodal. This <em>might</em> be a sign that this unit is really the signal from two neurons: the sorter has “overmerged” two units during the second half of the recording. The spikes with the large signal near <code>time=8000s</code> are also a bit suspicious.</p>
 <p>Overall, a perfect unit should have a neat normal distribution, without the strange features we see above.</p>
 </section>
-<section id="exercise-manually-curate-the-analyzer-for-10-minutes" class="level3" data-number="10.4.4">
-<h3 data-number="10.4.4" class="anchored" data-anchor-id="exercise-manually-curate-the-analyzer-for-10-minutes"><span class="header-section-number">10.4.4</span> Exercise: manually curate the analyzer for 10 minutes</h3>
+<section id="exercise-manually-curate-the-analyzer-for-10-minutes" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="exercise-manually-curate-the-analyzer-for-10-minutes"><span class="header-section-number">5.4.4</span> Exercise: manually curate the analyzer for 10 minutes</h3>
 <p>Jot down any units you were unsure what to do with and we’ll take a look at them soon.</p>
 <p>When you’re done, export your curation using the “Export json” button. This will produce a json file containing your decisions.</p>
 </section>
 </section>
-<section id="automated-labels-with-metrics" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="automated-labels-with-metrics"><span class="header-section-number">10.5</span> Automated labels with metrics</h2>
+<section id="automated-labels-with-metrics" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="automated-labels-with-metrics"><span class="header-section-number">5.5</span> Automated labels with metrics</h2>
 <p>Manual curation isn’t fun. It also has genuine scientific issues: human decisions are inconsistent. If you do the same curation exercise tomorrow, you’ll get a different result. If you’re hungry, you’ll probably be harsher on your units. If you’ve not seen a good unit for a while, you’ll be desperate to label one as “good”! And different people make different decision (see <a href="https://ieeexplore.ieee.org/document/1300782">this paper</a>).</p>
 <p>So, we can try to automate the process. We’ll try three different methods, all based on <strong>Metrics</strong>.</p>
 <p>In our context a metric is a number which measures a property of the spike sorted unit. Let’s see some common examples (the text here is adapted from the <a href="https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2">UnitRefine paper</a> by Jain et al.)</p>
@@ -625,19 +612,19 @@ Tip&nbsp;10.1: The curation you use depends on your science
 </ul>
 <p>Read more about the metrics either at the <a href="https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2">UnitRefine paper</a>, or in the <a href="https://spikeinterface.readthedocs.io/en/stable/modules/metrics.html">SpikeInterface docs</a>. As you can see, they all measure properties of different aspects of the unit: the size of the signal, non-biological spike times, properties of the amplitude and depth distributions etc etc. There are around 40 metrics in SpikeInterface and each has its own intricacies.</p>
 <p>In SpikeInterface, the metrics are contained in extensions. At the moment we separate them into two groups: quality metrics and template metrics. You can compute them in a similar way you computed other <code>SortingAnalyzer</code> extensions:</p>
-<div id="81b3a1ef" class="cell" data-execution_count="8">
+<div id="4b446ffe" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sorting_analyzer.compute([<span class="st">'quality_metrics'</span>, <span class="st">'template_metrics'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This will compute all the metrics which it can - the metrics you compute will depend on which other extensions you’ve computed. E.g. if you’ve not computed spike depths you won’t get any of the drift metrics. If you’ve not computed noise levels, you won’t get the signal-to-noise ratio. The other extensions we’ve computed already will give us access to most of the metrics.</p>
 <p>After you’ve computed them you can see the metrics in a pandas dataframe as follows:</p>
-<div id="8bb5f9a2" class="cell" data-execution_count="9">
+<div id="056eb023" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>all_metrics <span class="op">=</span> si.get_metrics_extension_data(sorting_analyzer)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(all_metrics)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="thresholding" class="level3" data-number="10.5.1">
-<h3 data-number="10.5.1" class="anchored" data-anchor-id="thresholding"><span class="header-section-number">10.5.1</span> Thresholding</h3>
+<section id="thresholding" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="thresholding"><span class="header-section-number">5.5.1</span> Thresholding</h3>
 <p>The simplest approach to decide whether units are “good” based on metrics is to <em>threshold</em>. This means: define some boundaries and only take units whose metrics fall within those boundaries. Here’s an example:</p>
-<div id="d0bd3f6f" class="cell" data-execution_count="10">
+<div id="bd36b402" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>qm_thresholds <span class="op">=</span> {</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"snr"</span>: {<span class="st">"greater"</span>: <span class="dv">5</span>},</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"firing_rate"</span>: {<span class="st">"greater"</span>: <span class="fl">0.1</span>, <span class="st">"less"</span>: <span class="dv">200</span>},</span>
@@ -645,7 +632,7 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Based on these thresholds, we can get labels (“good” or “noise”) for all your units:</p>
-<div id="946afd20" class="cell" data-execution_count="11">
+<div id="fca24f4c" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>all_metrics <span class="op">=</span> sorting_analyzer.get_metrics_extension_data()</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>qm_labels <span class="op">=</span> si.threshold_metrics_label_units(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    all_metrics, thresholds<span class="op">=</span>qm_thresholds, column_name<span class="op">=</span><span class="st">"simple_threshold"</span></span>
@@ -654,7 +641,7 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(good_units)<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="bu">len</span>(qm_labels)<span class="sc">}</span><span class="ss"> are good!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, we can attach the labels to the <code>sorting_analyzer</code> and launch the GUI, allowing us to take a look at what we’ve done:</p>
-<div id="a103c116" class="cell" data-execution_count="12">
+<div id="8c69678a" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sorting_analyzer.set_sorting_property(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">'simple_threshold'</span>, </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span>qm_labels[<span class="st">'simple_threshold'</span>].values.astype(<span class="bu">str</span>)</span>
@@ -665,16 +652,16 @@ Tip&nbsp;10.1: The curation you use depends on your science
 </div>
 <p>Usually thresholding is a strict tool. Your unit has to pass every test you give it for it to be included as a good one. Sometimes you want to be more lenient with one threshold when another criteria is met. So generally, I would advise against simple thresholding. But it’s a good place to start.</p>
 </section>
-<section id="bombcell-extreme-thresholding" class="level3" data-number="10.5.2">
-<h3 data-number="10.5.2" class="anchored" data-anchor-id="bombcell-extreme-thresholding"><span class="header-section-number">10.5.2</span> Bombcell: <em>extreme</em> Thresholding</h3>
+<section id="bombcell-extreme-thresholding" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="bombcell-extreme-thresholding"><span class="header-section-number">5.5.2</span> Bombcell: <em>extreme</em> Thresholding</h3>
 <p>I think of Bombcell, developed by Julie Fabre, as <em>extreme</em> thresholding. Roughly your unit goes through a decision tree, and depending on the metrics, it will get a different label. The decision tree is carefully thought out and takes into account a diverse range of metrics. Take a look at the decision tree on the <a href="https://github.com/Julie-Fabre/bombcell">Bombcell GitHub page</a>.</p>
 <p>The good news for us is that Julie agreed to port Bombcell over to SpikeInterface. Hence we can use it on our analyzer in a one-liner:</p>
-<div id="62da5923" class="cell" data-execution_count="13">
+<div id="f6117b0f" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>bombcell_labels <span class="op">=</span> si.bombcell_label_units(sorting_analyzer)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bombcell_labels)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s take a look at the results:</p>
-<div id="254c3cc5" class="cell" data-execution_count="14">
+<div id="e021d9dc" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sorting_analyzer.set_sorting_property(</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">'bombcell_labels'</span>, </span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span>bombcell_labels[<span class="st">'bombcell_label'</span>].values.astype(<span class="bu">str</span>)</span>
@@ -683,22 +670,22 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    sorting_analyzer</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>There are also plotting tools so that you can see <em>why</em> Bombcell labelled your units as it did. For example, here is an “upset plot”:</p>
-<div id="3dd46b94" class="cell" data-execution_count="15">
+<p>There are also plotting tools so that you can see <em>why</em> Bombcell labeled your units as it did. For example, here is an “upset plot”:</p>
+<div id="35f4c5e7" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>si.plot_bombcell_labels_upset(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    sorting_analyzer, </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    unit_labels<span class="op">=</span>bombcell_labels[<span class="st">'bombcell_label'</span>]</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This tells us which metrics made units fail. After looking at your results, you might decide to change the default parameters. To do so, you can first check out the default params:</p>
-<div id="5bbae35c" class="cell" data-execution_count="16">
+<div id="06a1eea5" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">## it's worth "pretty printing" this dict...</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pprint <span class="im">import</span> pprint</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>default_thresholds <span class="op">=</span> si.bombcell_get_default_thresholds()</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>pprint(default_thresholds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Then decide which to change, and feed these into your labelling function:</p>
-<div id="a0642820" class="cell" data-execution_count="17">
+<p>Then decide which to change, and feed these into your labeling function:</p>
+<div id="e35bda9f" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>custom_thresholds <span class="op">=</span> {</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mua'</span>: {</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'amplitude_cutoff'</span>: {<span class="st">'greater'</span>: <span class="va">None</span>, <span class="st">'less'</span>: <span class="fl">0.1</span>},</span>
@@ -730,12 +717,12 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="unitrefine-train-yourself-out-of-a-job" class="level3" data-number="10.5.3">
-<h3 data-number="10.5.3" class="anchored" data-anchor-id="unitrefine-train-yourself-out-of-a-job"><span class="header-section-number">10.5.3</span> UnitRefine: Train yourself out of a job</h3>
-<p>In UnitRefine (<a href="https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2">preprint</a> + <a href="https://github.com/anoushkajain/UnitRefine.git">gitub repo</a>), you start with a small (say, 1000 units) manually labelled dataset. UnitRefine then use machine learning to train a classifier based on this labelled data and the metrics of each unit. Then these classifiers should mimic the people who originally did the labelling.</p>
-<p>The hardest problem isn’t training the classifiers - it’s getting good labelled data. Studies show that humans agree approximately 80% of the time <a href="https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2">Jain et al., 2025</a>, so this gives a ceiling on how well a classifier can mimic a group of manual curators.</p>
+<section id="unitrefine-train-yourself-out-of-a-job" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="unitrefine-train-yourself-out-of-a-job"><span class="header-section-number">5.5.3</span> UnitRefine: Train yourself out of a job</h3>
+<p>In UnitRefine (<a href="https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2">preprint</a> + <a href="https://github.com/anoushkajain/UnitRefine.git">gitub repo</a>), you start with a small (say, 1000 units) manually labeled dataset. UnitRefine then use machine learning to train a classifier based on this labeled data and the metrics of each unit. Then these classifiers should mimic the people who originally did the labeling.</p>
+<p>The hardest problem isn’t training the classifiers - it’s getting good labeled data. Studies show that humans agree approximately 80% of the time <a href="https://www.biorxiv.org/content/10.1101/2025.03.30.645770v2">Jain et al., 2025</a>, so this gives a ceiling on how well a classifier can mimic a group of manual curators.</p>
 <p>There are some pre-trained classifiers available on <a href="https://huggingface.co/AnoushkaJain3">HuggingFaceHub from Anoushka Jain</a>. The underlying data was curated by five different people. Let’s try it out:</p>
-<div id="de9842b4" class="cell" data-execution_count="18">
+<div id="546f3a5e" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>unitrefine_labels <span class="op">=</span> si.unitrefine_label_units(</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    sorting_analyzer,</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    noise_neural_classifier<span class="op">=</span><span class="st">"AnoushkaJain3/noise_neural_classifier_lightweight"</span>,</span>
@@ -753,9 +740,9 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <p>The basic system we’ve used uses two binary classifiers: one classifies units into “noise” or “neural”, the second into “mua” or “sua”. “sua” means “single unit activity” - we’ve mostly been using “good” instead of “sua” but they mean the same thing.</p>
 <p>Another option is to train your own classifier. When you train yourself you can use any labels, and any number of labels, that you’d like. I’ll do a demo of this in the workshop. You can try it yourself by following the instructions on the <a href="https://github.com/anoushkajain/UnitRefine.git">UnitRefine GitHub repo</a>:, and there is also a <a href="https://youtu.be/UKYDipSY7B4">video tutorial</a>.</p>
 </section>
-<section id="comparing-methods" class="level3" data-number="10.5.4">
-<h3 data-number="10.5.4" class="anchored" data-anchor-id="comparing-methods"><span class="header-section-number">10.5.4</span> Comparing methods</h3>
-<p>We’ve now tried three labelling methods and we’ve been storing their results in the analyzer. So, we can now compare all three methods in the GUI.</p>
+<section id="comparing-methods" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="comparing-methods"><span class="header-section-number">5.5.4</span> Comparing methods</h3>
+<p>We’ve now tried three labeling methods and we’ve been storing their results in the analyzer. So, we can now compare all three methods in the GUI.</p>
 <p>Here’s a unit that gets a different label for each method:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -766,10 +753,10 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <p>Which classifier do you agree with?</p>
 </section>
 </section>
-<section id="merging" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="merging"><span class="header-section-number">10.6</span> Merging</h2>
+<section id="merging" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="merging"><span class="header-section-number">5.6</span> Merging</h2>
 <p>We’ll try out some auto-merge tools from the GUI. Launch the gui using the “merge_focus” layout-preset as follows:</p>
-<div id="c61e1f02" class="cell" data-execution_count="19">
+<div id="03bcc7d0" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sigui <span class="op">--</span>curation <span class="op">--</span>layout<span class="op">-</span>preset merge_focus path<span class="op">/</span>to<span class="op">/</span>full_analyzer_lupin_000939.zarr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>(As these command line commands get more complicated, you might see why you want to run SpikeInterface-GUI from a Python script rather than from terminal!)</p>
@@ -796,7 +783,7 @@ Tip&nbsp;10.1: The curation you use depends on your science
 </figure>
 </div>
 <p>I find that everything SLAy suggests turns out to be a true merge, but it sometimes misses potential merges. Everything you see in the GUI, you can recreate in SpikeInterface using the <code>compute_merge_unit_groups</code> function:</p>
-<div id="60f19048" class="cell" data-execution_count="20">
+<div id="57679883" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>merge_unit_groups <span class="op">=</span> si.compute_merge_unit_groups(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    sorting_analyzer,</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    preset<span class="op">=</span><span class="st">'slay'</span>,</span>
@@ -810,8 +797,8 @@ Tip&nbsp;10.1: The curation you use depends on your science
 </ol>
 <p>I use 2., with SLAy.</p>
 </section>
-<section id="splitting" class="level2" data-number="10.7">
-<h2 data-number="10.7" class="anchored" data-anchor-id="splitting"><span class="header-section-number">10.7</span> Splitting</h2>
+<section id="splitting" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="splitting"><span class="header-section-number">5.7</span> Splitting</h2>
 <p>Finally, SpikeInterface-GUI allows you to split units which have been over-merged. Splitting means taking a unit consisting of n spikes, and splitting the spikes into two groups. The two seperate groups are then each assigned to a new unit. You split one unit into two new units.</p>
 <p>The current generation of spike sorters are usually tuned to over-split units because manual merging is relatively easy whereas manual splitting is difficult. Also, spikes which look like outliers in some way sometimes look like outliers for good reasons: these events might be when the spikes overlap with spikes from another unit. Or they could be slightly deformed spikes taking place during sharp wave ripples. Overall: I don’t recommend splitting.</p>
 <p>But if you insist, go into curation mode in the GUI and then you can select spikes in any of the “spikey” Views, and click “split”</p>
@@ -823,8 +810,8 @@ Tip&nbsp;10.1: The curation you use depends on your science
 </div>
 <p>These decisions will be entered into “CurationView” and you can, again, export the <strong>Curation</strong> as a <code>json</code> file.</p>
 </section>
-<section id="functional-curation-philosophy" class="level2" data-number="10.8">
-<h2 data-number="10.8" class="anchored" data-anchor-id="functional-curation-philosophy"><span class="header-section-number">10.8</span> “Functional” Curation philosophy</h2>
+<section id="functional-curation-philosophy" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="functional-curation-philosophy"><span class="header-section-number">5.8</span> “Functional” Curation philosophy</h2>
 <p>A quick philosophical break.</p>
 <p>We’ve been implicitly using a “functional” curation approach. This means: don’t edit the analyzer as you go. Instead, keep the original analyzer - treat it like raw data - then build a curation that you, at the last minute, can apply to it. When you apply it: make a new curated analyzer <em>and</em> keep the original one. This is good for a few reasons:</p>
 <ul>
@@ -832,14 +819,14 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <li><strong>Try different approaches</strong>: you can try out different things. Keep one manual Curation file and one Curation file generated by an alogorithm, then switch between them and check if your downstream scientific results don’t change.</li>
 <li><strong>Change your mind</strong>: if you change your mind about your curation, you don’t need to redo your sorting, you just need to edit your curation.</li>
 </ul>
-<p>When labelling, there isn’t much different between our approach and just editing the analyzer, but you feel the difference more when you merge and split.</p>
+<p>When labeling, there isn’t much different between our approach and just editing the analyzer, but you feel the difference more when you merge and split.</p>
 <p>We can now update our mantra:</p>
 <p><em>Mantra of the day</em>: SpikeInterface-GUI is used to create a <strong>Curation</strong> file, <em>not</em> to edit an analyzer.</p>
 </section>
-<section id="make-and-apply-a-curation" class="level2" data-number="10.9">
-<h2 data-number="10.9" class="anchored" data-anchor-id="make-and-apply-a-curation"><span class="header-section-number">10.9</span> Make and apply a Curation</h2>
+<section id="make-and-apply-a-curation" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="make-and-apply-a-curation"><span class="header-section-number">5.9</span> Make and apply a Curation</h2>
 <p>You’ve curated your data. Congrats!!! In the next section we’ll do some downstream analysis. For downstream analysis, you might want to use curated results (i.e.&nbsp;only include the “good” units). To do this, we’ll load the original analyzer, load the curation, and apply the curation to the analyzer:</p>
-<div id="e04a4b8a" class="cell" data-execution_count="21">
+<div id="cfddc932" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spikeinterface.full <span class="im">as</span> si</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>curation <span class="op">=</span> si.load_curation(<span class="st">"path/to/curation.json"</span>)</span>
@@ -847,9 +834,9 @@ Tip&nbsp;10.1: The curation you use depends on your science
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>curated_analyzer <span class="op">=</span> si.apply_curation(analyzer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This might take a little while: the analyzer has to recompute some extensions for the new units.</p>
-<p>Depending on your requirements (see <a href="#tip-science" class="quarto-xref">Tip&nbsp;<span>10.1</span></a>), you might also delete “mua” units.</p>
+<p>Depending on your requirements (see <a href="#tip-science" class="quarto-xref">Tip&nbsp;<span>5.1</span></a>), you might also delete “mua” units.</p>
 <p>There are different things you could do at this stage: just save the spikes, or export to another format. For this workshop, we’re going to export the results so that they can be used with <a href="">Pynapple</a>. You’ll learn more about Pynapple later. For now, let’s try to convert the curated analyzer to a Pynapple TsGroup:</p>
-<div id="feca085c" class="cell" data-execution_count="22">
+<div id="74ddc657" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>spikes <span class="op">=</span> si.to_pynapple_tsgroup(curated_analyzer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>(Actually you’re going to stream a sorting directly from DANDI. But if you were doing it from your own data, this is what you’d do.)</p>
@@ -1261,13 +1248,13 @@ Tip&nbsp;10.1: The curation you use depends on your science
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./unitmatch-coding.html" class="pagination-link" aria-label="UnitMatch (coding)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnitMatch (coding)</span></span>
+      <a href="./spike-sorting.html" class="pagination-link" aria-label="Spike Sorting">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Spike Sorting</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./pynapple.html" class="pagination-link" aria-label="Neural analysis with Pynapple (coding)">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural analysis with Pynapple (coding)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./pynapple.html" class="pagination-link" aria-label="Neural analysis with Pynapple">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Neural analysis with Pynapple</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

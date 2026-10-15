@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; UnitMatch (coding) – OSSS Extracellular Electrophysiology Course 2026</title>
+<title>8&nbsp; UnitMatch – OSSS Extracellular Electrophysiology Course 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -71,18 +71,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./curation.html" rel="next">
-<link href="./unitmatch-presentation.html" rel="prev">
+<link href="./course-data.html" rel="next">
+<link href="./explore-ibl-viewephys.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3d497cff885f6278d37568d0ef0763f8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fd0503e23dce65854c81c5baaade3bdf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./unitmatch-coding.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnitMatch (coding)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./explore-ibl-viewephys.html">More to explore</a></li><li class="breadcrumb-item"><a href="./unitmatch-coding.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">UnitMatch</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -163,79 +163,66 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./introduction-presentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to electrophysiology (slides)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./pipeline-overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pipeline overview (coding)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./preprocessing-steps-presentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Preprocessing (slides)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pipeline overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./preprocessing-steps-coding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualisation of the raw data (coding)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Preprocessing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spike-sorting-presentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spike sorting (slides)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./spike-sorting-coding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spike sorting (coding)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unitmatch-presentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tracking neurons across days with (Deep)UnitMatch (slides)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unitmatch-coding.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnitMatch (coding)</span></span></a>
+  <a href="./spike-sorting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Spike Sorting</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./curation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and manual curation (coding)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualization and manual curation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pynapple.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural analysis with Pynapple (coding)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./electrophysiology-features.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Electrophysiology Features (slides)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Neural analysis with Pynapple</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Reference</span></a>
+ <span class="menu-text">More to explore</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./explore-ibl-viewephys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Explore the IBL dataset with viewephys</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unitmatch-coding.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">UnitMatch</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./course-data.html" class="sidebar-item-text sidebar-link">
@@ -260,19 +247,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">9.1</span> Setup</a></li>
-  <li><a href="#exercise-1-matching-neurons-with-unitmatchpy-10-min" id="toc-exercise-1-matching-neurons-with-unitmatchpy-10-min" class="nav-link" data-scroll-target="#exercise-1-matching-neurons-with-unitmatchpy-10-min"><span class="header-section-number">9.2</span> Exercise 1: Matching neurons with UnitMatchPy (~10 min)</a></li>
-  <li><a href="#exercise-2-matching-neurons-with-deepunitmatch-15-min" id="toc-exercise-2-matching-neurons-with-deepunitmatch-15-min" class="nav-link" data-scroll-target="#exercise-2-matching-neurons-with-deepunitmatch-15-min"><span class="header-section-number">9.3</span> Exercise 2: Matching neurons with DeepUnitMatch (~15 min)</a></li>
-  <li><a href="#if-you-have-more-time" id="toc-if-you-have-more-time" class="nav-link" data-scroll-target="#if-you-have-more-time"><span class="header-section-number">9.4</span> If you have more time</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">8.1</span> Setup</a></li>
+  <li><a href="#exercise-1-matching-neurons-with-unitmatchpy-10-min" id="toc-exercise-1-matching-neurons-with-unitmatchpy-10-min" class="nav-link" data-scroll-target="#exercise-1-matching-neurons-with-unitmatchpy-10-min"><span class="header-section-number">8.2</span> Exercise 1: Matching neurons with UnitMatchPy (~10 min)</a></li>
+  <li><a href="#exercise-2-matching-neurons-with-deepunitmatch-15-min" id="toc-exercise-2-matching-neurons-with-deepunitmatch-15-min" class="nav-link" data-scroll-target="#exercise-2-matching-neurons-with-deepunitmatch-15-min"><span class="header-section-number">8.3</span> Exercise 2: Matching neurons with DeepUnitMatch (~15 min)</a></li>
+  <li><a href="#if-you-have-more-time" id="toc-if-you-have-more-time" class="nav-link" data-scroll-target="#if-you-have-more-time"><span class="header-section-number">8.4</span> If you have more time</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./explore-ibl-viewephys.html">More to explore</a></li><li class="breadcrumb-item"><a href="./unitmatch-coding.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">UnitMatch</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnitMatch (coding)</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">UnitMatch</span></h1>
 </div>
 
 
@@ -289,20 +276,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>In the presentation, we saw why we want to track single neurons across recording sessions, and how <a href="https://www.nature.com/articles/s41592-024-02440-1"><strong>UnitMatch</strong></a> and <a href="https://www.biorxiv.org/content/10.64898/2026.01.30.702777v1"><strong>DeepUnitMatch</strong></a> identify matching units from their waveforms alone, without needing to concatenate and re-sort recordings together.</p>
-<p>In this session, we will use UnitMatchPy and DeepUnitMatch to match units between two recording sessions from the same mouse, recorded roughly 24 hours apart.</p>
-<section id="setup" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">9.1</span> Setup</h2>
+<p>In this tutorial we will explore how to match <a href="./glossary.html#unit">units</a> across sessions with UnitMatch.</p>
+<p>See the <a href="https://drive.google.com/file/d/12ei4s5pY_5RlfZjwQ3hELCVJit-X9ta4/view?usp=sharing">presentation slides</a> for why we want to track single neurons across recording sessions, and how <a href="https://www.nature.com/articles/s41592-024-02440-1"><strong>UnitMatch</strong></a> and <a href="https://www.biorxiv.org/content/10.64898/2026.01.30.702777v1"><strong>DeepUnitMatch</strong></a> identify matching units from their <a href="./glossary.html#waveform">waveforms</a> alone, without needing to concatenate and re-sort recordings together.</p>
+<p>Let’s use UnitMatchPy and DeepUnitMatch to match units between two recording sessions from the same mouse, recorded roughly 24 hours apart.</p>
+<section id="setup" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">8.1</span> Setup</h2>
 <p><strong>Install UnitMatchPy</strong> UnitMatchPy should already be installed as part of the <a href="./setup.html">course setup</a>, but in general it can be installed in any Python environment with:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pip install <span class="st">"UnitMatchPy[full,notebooks]"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Download the example data</strong> from <a href="https://www.dropbox.com/scl/fo/1019utuiqbogkyxeqpm8a/AKov2FuY5XZfx5JjIEVuoO4?rlkey=1xcxyki0ijktmxz1k62qg07hh&amp;st=4rrisszb&amp;dl=0">this Dropbox folder</a> (you can click “continue without signing up”, no Dropbox account needed).</p>
 <p>The main dataset we will use below is <strong>AL032</strong>: two sessions from one mouse (also available on <a href="https://figshare.com/articles/dataset/UnitMatch_Demo_-_data/24305758?file=42664381">figshare</a>). You should download this dataset.</p>
 <p>You can optionally download the <strong>EB055</strong> dataset (four sessions from one mouse, two of which include raw SpikeGLX data) which will be used in the <a href="#extension-multi-day-tracking-and-training-your-own-model">extended exercises</a>. However, it is a large dataset so don’t worry if you cannot download as we will not use it in the main exercises.</p>
 </section>
-<section id="exercise-1-matching-neurons-with-unitmatchpy-10-min" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="exercise-1-matching-neurons-with-unitmatchpy-10-min"><span class="header-section-number">9.2</span> Exercise 1: Matching neurons with UnitMatchPy (~10 min)</h2>
+<section id="exercise-1-matching-neurons-with-unitmatchpy-10-min" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="exercise-1-matching-neurons-with-unitmatchpy-10-min"><span class="header-section-number">8.2</span> Exercise 1: Matching neurons with UnitMatchPy (~10 min)</h2>
 <ol type="1">
-<li>Open <a href="https://github.com/EnnyvanBeest/UnitMatch/blob/main/UnitMatchPy/Demo%20Notebooks/UMPy_example.ipynb"><code>UMPy_example.ipynb</code></a> in your favourite Python interpreter, pointed at the two AL032 sessions.</li>
+<li>Open <a href="https://github.com/EnnyvanBeest/UnitMatch/blob/main/UnitMatchPy/Demo%20Notebooks/UMPy_example.ipynb"><code>UMPy_example.ipynb</code></a> in your favorite Python interpreter, pointed at the two AL032 sessions.</li>
 <li>Follow the demo until you reach a plot that looks like a matrix of black and white dots.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -323,8 +311,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="exercise-2-matching-neurons-with-deepunitmatch-15-min" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="exercise-2-matching-neurons-with-deepunitmatch-15-min"><span class="header-section-number">9.3</span> Exercise 2: Matching neurons with DeepUnitMatch (~15 min)</h2>
+<section id="exercise-2-matching-neurons-with-deepunitmatch-15-min" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="exercise-2-matching-neurons-with-deepunitmatch-15-min"><span class="header-section-number">8.3</span> Exercise 2: Matching neurons with DeepUnitMatch (~15 min)</h2>
 <p>Now let’s compare against DeepUnitMatch, which replaces the hand-engineered matching step with a trained neural network.</p>
 <ol type="1">
 <li>Open <a href="https://github.com/EnnyvanBeest/UnitMatch/blob/main/UnitMatchPy/Demo%20Notebooks/DeepUnitMatch.ipynb"><code>DeepUnitMatch.ipynb</code></a>.</li>
@@ -349,8 +337,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="if-you-have-more-time" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="if-you-have-more-time"><span class="header-section-number">9.4</span> If you have more time</h2>
+<section id="if-you-have-more-time" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="if-you-have-more-time"><span class="header-section-number">8.4</span> If you have more time</h2>
 <p>The exercises below go beyond the core session. They are here as a self-paced reference, not something we expect everyone to reach today.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -778,13 +766,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./unitmatch-presentation.html" class="pagination-link" aria-label="Tracking neurons across days with (Deep)UnitMatch (slides)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tracking neurons across days with (Deep)UnitMatch (slides)</span></span>
+      <a href="./explore-ibl-viewephys.html" class="pagination-link" aria-label="Explore the IBL dataset with viewephys">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Explore the IBL dataset with viewephys</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./curation.html" class="pagination-link" aria-label="Visualization and manual curation (coding)">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and manual curation (coding)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./course-data.html" class="pagination-link" aria-label="Course data">
+        <span class="nav-page-text">Course data</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
