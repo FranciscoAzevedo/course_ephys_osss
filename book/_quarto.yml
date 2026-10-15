@@ -92,7 +92,7 @@ book:
     - setup.qmd
     - pipeline-overview.qmd
     - preprocessing-steps-coding.qmd
-    - spike-sorting-coding.qmd
+    - spike-sorting.qmd
     - curation.qmd
     - pynapple.qmd
     - part: "More to explore"
