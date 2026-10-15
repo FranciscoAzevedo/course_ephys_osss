@@ -1,8 +1,4 @@
----
-title: "Spike sorting"
-execute:
-  eval: false
----
+# Spike Sorting
 
 This is a practical guide to running sorters and computing properties of them. 
 Find out more information about the theory behind spike sorting by looking at 
