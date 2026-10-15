@@ -251,7 +251,7 @@ w = si.plot_agreement_matrix(comparison)
 We can also compare more than two sorting outputs simultaneously:
 
 ```{python}
-multi_comparison = sc.compare_multiple_sorters(
+multi_comparison = si.compare_multiple_sorters(
     sorting_list=[sorting_KS4, sorting_LUPIN, sorting_SC2],
     name_list=["KS4", "LUPIN", "SC2"],
     spiketrain_mode="union",
