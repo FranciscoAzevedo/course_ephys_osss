@@ -1,8 +1,6 @@
 # Neural analysis with Pynapple
 
-Related presentations explore electrophysiological features: probe histology reconstruction with electrophysiological landmarks (Pranav Rai, ~20 mins), an electrophysiological atlas (Olivier Winter, ~20 mins), and [going further with LFP](https://docs.google.com/presentation/d/154TyOVoUDQVmTZPJ2m4cTba8pGpjvyzrcesT9PwBIOY/edit?slide=id.g36797cfa110_0_232) (Olivier Winter, ~20 mins).
-
-This chapter is an introduction to [Pynapple](pynapple.org).  
+This chapter is an introduction to [Pynapple](pynapple.org).
 Pynapple is a python package for analyzing neural data.\
 The package is actively maintained by the Flatiron Institute's [neuroRSE team](https://neurorse.flatironinstitute.org/). 
 
