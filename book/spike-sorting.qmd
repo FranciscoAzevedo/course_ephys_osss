@@ -232,7 +232,7 @@ sorting_KS4
 **Plot rasters**
 
 ```{python}
-sw.plot_rasters(sorting_KS4, unit_ids=sorting_KS4.unit_ids[:20], time_range=(0, 5))
+si.plot_rasters(sorting_KS4, unit_ids=sorting_KS4.unit_ids[:20], time_range=(0, 5))
 ```
 
 ## Compare sorter outputs
@@ -258,9 +258,9 @@ multi_comparison = sc.compare_multiple_sorters(
     verbose=True,
     n_jobs=1
 )
-w = sw.plot_multicomparison_agreement(multi_comparison)
+w = si.plot_multicomparison_agreement(multi_comparison)
 # plt.show(w.figure)
-w = sw.plot_multicomparison_agreement_by_sorter(multi_comparison)
+w = si.plot_multicomparison_agreement_by_sorter(multi_comparison)
 # plt.show(w.figure)
 ```
 
@@ -361,8 +361,8 @@ This is a `pandas` dataframe with information about each unit. Nice.
 `SpikeInterface` also supports lots of plotting functions that are related to extensions (see more: https://spikeinterface.readthedocs.io/en/latest/modules/widgets.html#available-plotting-functions). Let's plot a couple of extensions using the widgets module:
 
 ```{python}
-w = sw.plot_unit_templates(analyzer, backend="ipywidgets")
-w = sw.plot_crosscorrelograms(analyzer, unit_ids=[1, 2, 3])
+w = si.plot_unit_templates(analyzer, backend="ipywidgets")
+w = si.plot_crosscorrelograms(analyzer, unit_ids=[1, 2, 3])
 ```
 
 In this chapter we have seen how to go from a preprocessed `Recording` to a `Sorting` object, how to compare spike sorting outputs, and to create a `SortingAnalyzer` to compute additional extensions and visualize them.
