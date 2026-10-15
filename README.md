@@ -12,9 +12,7 @@ First, install [Quarto](https://quarto.org/docs/get-started/).
 To preview the website locally, run from the `book` folder:
 
 ```
-python -m pip install -r requirements.txt
-quarto render preprocessing-steps-presentation.qmd --to html --no-execute --embed-resources
-quarto render --to html
+uv run quarto render
 ```
 (requires [Quarto](https://quarto.org/docs/get-started/) to be installed).
 
