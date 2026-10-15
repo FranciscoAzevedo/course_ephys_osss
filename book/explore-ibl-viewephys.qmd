@@ -145,3 +145,10 @@ In a shell, with the environment active, type `viewephys`.
 Select raw and LFP, then open **File > Open** and select the `.cbin` file in the folder above.
 
 How close is the raw voltage to saturation? What is the shape of the spectrum if you right-click and compute the PSD?
+
+### Other IBL
+
+The IBL produce many useful tools for extracellular electrophysiology. For example, see these presentations which
+explore probe histology reconstruction with electrophysiological landmarks (Pranav Rai, ~20 mins),
+an electrophysiological atlas (Olivier Winter, ~20 mins),
+and [going further with LFP](https://docs.google.com/presentation/d/154TyOVoUDQVmTZPJ2m4cTba8pGpjvyzrcesT9PwBIOY/edit?slide=id.g36797cfa110_0_232) (Olivier Winter, ~20 mins).
