@@ -3,6 +3,16 @@
 In this chapter we will use 
 [SpikeInterface](https://spikeinterface.readthedocs.io/en/stable/) to implement a standard spike sorting pipeline from start to finish. We will go through the key steps at a high level, while developing the theory and adding more advanced methods in the following chapters.
 
+<!--
+For the introductory link below to work, the slides need to be built locally:
+quarto render slides/intro/introduction-presentation.qmd --embed-resources
+
+and should be located in:
+book/intro-slides.html
+
+The CI handles this for the build.
+-->
+
 You can also check out the [introductory slides](intro-slides.html){target="_blank" rel="noopener"} and [glossary](glossary.qmd) for an
 overview of the [extracellular electrophysiology](glossary.qmd#extracellular-electrophysiology) technique and explanations of key concepts.
 
