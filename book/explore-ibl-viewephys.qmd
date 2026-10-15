@@ -1,0 +1,154 @@
+# Explore the IBL dataset with viewephys
+
+In this tutorial, we will download data from the [International Brain Laboratory (IBL)](https://www.internationalbrainlab.com/)
+and visualize it in [viewephys](https://pypi.org/project/viewephys/).
+
+The IBL is a consortium of neuroscience labs that collaborated to run a
+large, standardized set of behavioral and electrophysiology experiments, generating a huge open dataset.
+The IBL's [Brainwide Map](https://www.internationalbrainlab.com/brainwide-map) includes
+nearly 700 Neuropixels recordings collected across 12 labs, covering 279 brain areas.
+
+## Access the IBL data
+
+The code below can be used to stream snippets of IBL recordings and can be
+adjusted to download entire recordings. It lists a selection of 11 benchmark
+probe insertion IDs (PIDs) and selects one insertion.
+
+You can access other recordings by changing the IDs, using the
+[list of Brainwide Map PIDs](https://github.com/int-brain-lab/paper-brain-wide-map/blob/main/brainwidemap/fixtures/2023_12_bwm_release.csv).
+
+```{python}
+#| eval: false
+{{< include scripts/prepare_ibl_loader.py >}}
+```
+
+`ss` is a `SpikeSortingLoader`: an object that gives us access to the selected
+probe insertion's raw recordings, channel locations and spike-sorting results.
+Creating it does not download the full raw recording.
+
+You can use this object to stream snippets of the recording or download
+the entire recording.
+
+Below, we will stream snippets rather than download the entire recording. This
+reduces the amount of data transferred. However, you can use the code below to save
+the full recording to disk if you want to explore the dataset further:
+
+```{python}
+#| eval: false
+# Optional: download the full AP-band recording to ONE's local cache.
+files = ss.download_raw_electrophysiology(band='ap')
+print(files)
+```
+
+This downloads the `.cbin` voltage file and its `.ch` and `.meta` companion files,
+and returns their paths.
+
+Here we use the selected PID as an example, but you could loop over the list
+of `pids` to download multiple datasets.
+
+## Visualizing in viewephys
+
+Next we will visualize the IBL data by streaming directly from the `ss` object
+we created above. Run the viewing code in the same session as the setup code,
+for example by adding it to the same Jupyter notebook or Python script.
+
+```{python}
+#| eval: false
+#| code-fold: true
+#| code-summary: "Show the shared viewing code"
+{{< include scripts/visualize_raw_ephys_snippets.py >}}
+```
+
+![The viewephys viewer showing the destriped raw data snippet](images/viewephys_screen.png){width="120%"}
+
+Copy the visualization code into your favorite IDE. Note that you will need
+to make a small adjustment to the code depending on whether you are running in
+a notebook or through a script:
+
+::: {.panel-tabset}
+
+### Notebook or IPython
+
+Run this in a cell before running the shared viewing code above. It keeps the viewer
+windows responsive while you continue working in the notebook or IPython session.
+
+```{python}
+#| eval: false
+%gui qt
+```
+
+### Python script
+
+Add this before the shared viewing code in your `.py` file to create the Qt
+application:
+
+```{python}
+#| eval: false
+from viewephys.gui import create_app
+
+app = create_app()
+```
+
+Then add this at the end of the file, after the shared viewing code, to keep the
+windows open until you close them:
+
+```{python}
+#| eval: false
+app.exec()
+```
+
+Add code for the later exercises before `app.exec()`.
+
+:::
+
+### Navigating the viewer
+
+- **Pan**: left-click and drag
+- **Zoom**: scroll the mouse wheel (zooms on the cursor position), or right-click and drag
+- **Pan with the keyboard**: arrow keys (hold `Ctrl` for a bigger step)
+- **Gain**: `Page Up` / `Ctrl+A` decreases the gain (amplifies the signal), `Page Down` / `Ctrl+Z` increases it (you can also type a value directly in the gain box)
+- **Propagate**: `Ctrl+P` applies the current gain, colormap, sort order and axis links to all other open viewer windows; `Shift+P` does the same and additionally tiles the windows side by side
+- **Copy the current view**: `Ctrl+S` copies the plot to the clipboard as an image
+- **Right-click** on the plot for a context menu (view a single trace, spectrum or spectrogram)
+
+This is handy for comparing the raw, Butterworth-filtered and destriped windows side by side: open the three viewers, arrange/zoom one of them as needed, then hit `Ctrl+P` (or `Shift+P`) in that window to propagate the view to the other two.
+
+### Cycling through the different preprocessing steps
+
+After using **Propagate** (`Ctrl+P`), all three windows should be synchronized.
+
+- Cycle through the windows using `Alt+Tab`. How different are they?
+- On the raw display, right-click on the data and look at individual traces. What can you say about the DC offset and grounding? The units are µV, and these probes saturate at 1200 µV. Can you spot any saturation events in the raw data?
+
+
+### Looking at different recordings in different brain regions
+
+You can select different probe insertions by changing the index `i` in `pid = pids[i]` to visualize different brain regions. Then recreate `ss` and rerun the viewing code for the selected insertion.
+
+What can you see for different insertions? Are there any quality issues with the data? How do the signal characteristics differ between regions?
+
+You can also [browse plots of several of these insertions online](http://reveal.internationalbrainlab.org.s3-website-us-east-1.amazonaws.com/benchmarks.html#/5/2).
+
+
+### Looking at the LFP
+
+Let's stream 5 seconds of raw LFP and print the folder in which the data is stored:
+
+```{python}
+#| eval: false
+raw_lf = sr_lf[int(T0 * sr_lf.fs):int((T0 + 5) * sr_lf.fs), :-1].T
+eqcs['raw_lf'] = viewephys(raw_lf, sr_lf.fs, channels=channels, title='Raw LFP', t0=T0, br=regions)
+print(sr_lf.target_dir)
+```
+
+In a shell, with the environment active, type `viewephys`.
+Select raw and LFP, then open **File > Open** and select the `.cbin` file in the folder above.
+
+How close is the raw voltage to saturation? What is the shape of the spectrum if you right-click and compute the PSD?
+
+### Other IBL
+
+The IBL produce many useful tools for extracellular electrophysiology. For example, see these presentations which
+explore probe histology reconstruction with electrophysiological landmarks (Pranav Rai, ~20 mins),
+an electrophysiological atlas (Olivier Winter, ~20 mins),
+and [going further with LFP](https://docs.google.com/presentation/d/154TyOVoUDQVmTZPJ2m4cTba8pGpjvyzrcesT9PwBIOY/edit?slide=id.g36797cfa110_0_232) (Olivier Winter, ~20 mins).

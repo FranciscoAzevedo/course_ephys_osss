@@ -4,6 +4,7 @@ uv.lock
 /book/site_libs/
 /book/_site/
 /book/_tmp
+/book/results
 /book/data
 /slides/intro/_site
 /book/_freeze/

@@ -18,18 +18,6 @@ data](course-data.qmd)), but you can equally apply the material to your own data
 You may also be interested in the [glossary](glossary.qmd), 
 which defines the key terms used throughout the course.
 
-## Schedule
-
-The course will start on **Monday 24th August, 2026**.
-
-|  | Monday | Tuesday | Wednesday | Thursday | Friday |
-|--|--|--|--|--|--|
-|10am-1pm| Introduction and pipeline overview | Preprocessing | Visualization and Curation| Coding with Git + Collaboration day intro | Collaboration day | 
-|1pm-2pm| Lunch | Lunch | Lunch | Lunch | Lunch|
-|2pm-5pm | Symposium | Spike sorting and UnitMatch | Analysis (Pynapple + Probe track reconstruction) | Collaboration day | Collaboration day |
-
-There will be 15 minute coffee/snack breaks in the middle of each session.
-
 ## Funding and acknowledgements
 
 The Open Software Summer School is funded by the [Sainsbury Wellcome

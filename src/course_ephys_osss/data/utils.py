@@ -1,6 +1,6 @@
 from pathlib import Path
 import numpy as np
-from spikeinterface.extractors import NwbRecordingExtractor
+from spikeinterface.extractors.nwbextractors import NwbRecordingExtractor
 from pynwb import NWBHDF5IO
 from pynwb.ecephys import ElectricalSeries, LFP
 
