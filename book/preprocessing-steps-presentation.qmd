@@ -1,4 +1,12 @@
-# Preprocessing (slides)
+---
+title: Preprocessing presentations
+format:
+  html:
+    theme: cosmo
+    toc: true
+---
+
+[Back to the preprocessing chapter](preprocessing-steps-coding.html).
 
 
 ## Extracellular recordings with Neuropixels

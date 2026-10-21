@@ -47,6 +47,9 @@ jobs:
           quarto render slides/intro/introduction-presentation.qmd --embed-resources
           cp slides/intro/_site/introduction-presentation.html book/intro-slides.html
 
+      - name: Render unlisted preprocessing presentations
+        run: quarto render book/preprocessing-steps-presentation.qmd --to html --no-execute --embed-resources
+
       - name: Render book
         run: quarto render book
 

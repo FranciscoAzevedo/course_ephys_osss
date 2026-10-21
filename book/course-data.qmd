@@ -45,21 +45,17 @@ Therefore we use [this function](https://github.com/neuroinformatics-unit/course
 The cut-down data is available in the course repository at `book/data/pynapple/dandiset-000939-no-traces-full.nwb`.
 
 ### IBL Benchmark dataset
-*Used in Preprocessing (part 1).*
+*Used in [Explore the IBL dataset with viewephys](explore-ibl-viewephys.qmd).*
 
 The [IBL Benchmark dataset](https://doi.org/10.6084/m9.figshare.26348630) is a curated set of 11
 Neuropixels recordings in varied brain regions available publicly via the
 [Open Neurophysiology Environment (ONE)](https://int-brain-lab.github.io/ONE/) API.
 Data can be streamed directly — no bulk download required.
 
-The script below demonstrates how to: 
+The [IBL walkthrough](explore-ibl-viewephys.qmd) demonstrates how to:
 
 1. Connect to the public IBL server and select a probe insertion by its `pid`
 2. Stream a short snippet of raw AP-band voltage
 3. Apply a Butterworth high-pass filter (300 Hz) to remove LFP/DC drift
 4. Run the full IBL destriping pipeline (ADC shift correction + spatial k-filter)
 5. Open all three stages side-by-side in the `viewephys` interactive viewer
-
-```python
-{{< include scripts/visualize_raw_ephys_snippets.py >}}
-```
