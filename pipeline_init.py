@@ -1,21 +1,46 @@
 # %% 
+# General imports
 import os
 from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
+
+# SI packages
 import spikeinterface.full as si
-import pandas as pd
 from probeinterface.plotting import plot_probe
 import spikeinterface.preprocessing as spre
 import spikeinterface.widgets as sw
 import spikeinterface.curation as sc
-import seaborn as sns
-from upsetplot import from_indicators, plot as plot_upset
 
+# Default for plotting
+params = {  'legend.fontsize': 'large',
+            'legend.title_fontsize': 'large',
+            'axes.labelsize': 'large',
+            'axes.titlesize':'x-large',
+            'xtick.labelsize':'large',
+            'ytick.labelsize':'large',
+            'axes.linewidth': 2,
+            'lines.linewidth': 4,
+            'xtick.major.width': 2,
+            'ytick.major.width': 2,
+            }
+plt.rcParams.update(params)
 
 n_cpus = os.cpu_count()
 n_jobs = max(1, n_cpus - 4)
 job_kwargs = dict(n_jobs=n_jobs, chunk_duration="1s", progress_bar=True)
+
+
+"""
+.##........#######.....###....########..####.##....##..######..
+.##.......##.....##...##.##...##.....##..##..###...##.##....##.
+.##.......##.....##..##...##..##.....##..##..####..##.##.......
+.##.......##.....##.##.....##.##.....##..##..##.##.##.##...####
+.##.......##.....##.#########.##.....##..##..##..####.##....##.
+.##.......##.....##.##.....##.##.....##..##..##...###.##....##.
+.########..#######..##.....##.########..####.##....##..######..
+"""
+
 
 # This should be the path to the folder containing
 # the data (.bin and .meta files linked above). 
@@ -66,11 +91,6 @@ si.plot_traces(
 )
 plt.show()
 
-"""
-TIP: In general when working with raw data, you can use recording.get_channel_locations()
-to inspect the default channel ordering of the channels, and order_channels_by_depth() 
-function can be used to get the indices for reordering.
-"""
 
 # %% Bad channels and cutting the recording for faster processing
 
@@ -88,9 +108,18 @@ good_chn_recording = recording.remove_channels(bad_channel_ids)
 # recording_sub = recording.frame_slice(start_frame=0*fs, end_frame=300*fs)
 # recording_sub
 
-# %% Pre-processing (phase_shift, bandpass_filter, common_reference)
-# what about saturation detection, whitening?
+# %%
+"""
+.########..########..########.........########..########...#######...######.
+.##.....##.##.....##.##...............##.....##.##.....##.##.....##.##....##
+.##.....##.##.....##.##...............##.....##.##.....##.##.....##.##......
+.########..########..######...#######.########..########..##.....##.##......
+.##........##...##...##...............##........##...##...##.....##.##......
+.##........##....##..##...............##........##....##..##.....##.##....##
+.##........##.....##.########.........##........##.....##..#######...######.
+"""
 
+#  Pre-processing IBL method (phase_shift, bandpass_filter, common_reference)
 phase_shift_recording = si.phase_shift(good_chn_recording)
 
 filtered_recording = si.bandpass_filter(
@@ -151,15 +180,32 @@ sw.plot_motion_info(
 )
 fig.suptitle("Motion correction output")
 
-# %% Save preprocessed recording here
+# Save preprocessed recording here
+# One saved recording per shank, keyed by shank index (same keys as split_recording)
+saved_recordings = {}
 for shank_idx, shank_recording in split_recording.items():
 
-    recording_saved = shank_recording.save(folder=path_to_data_folder / "preprocessed_" / f"shank_{shank_idx}", **job_kwargs)
+    saved_recordings[shank_idx] = shank_recording.save(folder=path_to_data_folder / "preprocessed_" / f"shank_{shank_idx}", **job_kwargs, overwrite=True)
 
-# %% Sorting via Kilosort4 - ONLY FOR ONE SHANK ATM!
-for shank_idx, shank_recording in split_recording.items():
+# %% 
 
-    sorting = si.run_sorter(
+"""
+..######...#######..########..########.####.##....##..######..
+.##....##.##.....##.##.....##....##.....##..###...##.##....##.
+.##.......##.....##.##.....##....##.....##..####..##.##.......
+..######..##.....##.########.....##.....##..##.##.##.##...####
+.......##.##.....##.##...##......##.....##..##..####.##....##.
+.##....##.##.....##.##....##.....##.....##..##...###.##....##.
+..######...#######..##.....##....##....####.##....##..######..
+"""
+
+# Sorting via Kilosort4
+# One sorting per shank, keyed by shank index, run on the saved preprocessed data
+# (so the preprocessing chain is not recomputed on the fly)
+sortings = {}
+for shank_idx, shank_recording in saved_recordings.items():
+
+    sortings[shank_idx] = si.run_sorter(
         "kilosort4",
         shank_recording,
         folder=path_to_data_folder / f"kilosort4_output_shank{shank_idx}",
@@ -168,20 +214,25 @@ for shank_idx, shank_recording in split_recording.items():
         highpass_cutoff=0.1,
     )
 
-    analyzer = si.create_sorting_analyzer(
-        sorting=sorting,
-        recording=shank_recording
-    )
+# one analyzer, a sorting per shank
+analyzer = si.create_sorting_analyzer(
+    sorting=sortings,
+    recording=saved_recordings,
+    set_sparsity_by_dict_key=True, # each unit's waveforms restricted to its own shank
+    **job_kwargs,
+)
 
-print(sorting)
+for shank_idx, sorting in sortings.items():
+    print(f"Shank {shank_idx}: {sorting}")
+
+# if you need to have the analyzer on only one shank, you can do:
+# keys = analyzer.get_sorting_property("aggregation_key")
+# analyzer_shank0 = analyzer.select_units(analyzer.unit_ids[keys == 0])
 
 # %% Alternative: load an existing sorting (Kilosort4 / IBL-sorter) instead of re-sorting
 # Works on any Kilosort/Phy-style folder (spike_times.npy, spike_clusters.npy, params.py, ...),
-# including one curated in Phy (merges/splits in spike_clusters.npy, labels in cluster_group.tsv).
 # An ALF-converted IBL folder (spikes.samples.npy, clusters.*.npy) is also accepted.
-# The sorter ran on the whole probe of the raw .bin, so spike times are sample indices
-# into the full recording: pair them with all channels and no time slicing.
-path_to_sorting_output = Path("/media/storage/shared-paton/Prannay/ephy_test/Behav_28-7_11268_day2_dopa/myRun22_g0/myRun22_g0_imec0")  # <- folder with params.py
+path_to_sorting_output = Path("/media/paco/Data/Behav_28-7_11268_day2_dopa/myRun22_g0/myRun22_g0_imec0/")  # <- folder with params.py
 path_to_raw_data = path_to_sorting_output  # <- folder with the .ap.bin/.ap.meta it was sorted from
 
 def load_existing_sorting(sorter_folder, sampling_frequency):
@@ -235,8 +286,19 @@ analyzer = si.create_sorting_analyzer(
 )
 print(analyzer)
 
-# %% Quality control with Bombcell
+# %% 
 
+"""
+..#######...######.
+.##.....##.##....##
+.##.....##.##......
+.##.....##.##......
+.##..##.##.##......
+.##....##..##....##
+..#####.##..######.
+"""
+
+# Quality control with Bombcell
 extensions_dict = {
     'random_spikes': {},
     'templates': {},
@@ -274,136 +336,26 @@ _ = sw.plot_bombcell_labels_upset(analyzer, unit_labels=bombcell_labels["bombcel
             thresholds=bombcell_default_thresholds, unit_labels_to_plot=["noise", "mua"])
 
 
-# %% EXPORT TO PHY
-we = si.extract_waveforms(recording_saved, sorting, folder=path_to_data_folder / "waveforms_sparse", 
-                          sparse=True, **job_kwargs)
+# %%
+"""
+.########.##.....##.########...#######..########..########
+.##........##...##..##.....##.##.....##.##.....##....##...
+.##.........##.##...##.....##.##.....##.##.....##....##...
+.######......###....########..##.....##.########.....##...
+.##.........##.##...##........##.....##.##...##......##...
+.##........##...##..##........##.....##.##....##.....##...
+.########.##.....##.##.........#######..##.....##....##...
+"""
 
-si.export_to_phy(we, output_folder=path_to_data_folder / 'phy_KS4', 
-                    compute_amplitudes=False, compute_pc_features=False, copy_binary=False,
-                 **job_kwargs)
+# One Phy folder for the whole probe, from the analyzer (all shanks; Phy gets the
+# shank of each channel from channel_groups.npy). The analyzer's recording is an aggregation
+# of the per-shank saved recordings rather than a single binary file, so with
+# copy_binary=False Phy has no raw data (dat_path = None): templates/features only.
+# Set copy_binary=True to write a recording.dat for Phy's trace/raw-waveform views.
+si.export_to_phy(analyzer, output_folder=path_to_data_folder / 'phy_KS4',
+                compute_amplitudes=False, compute_pc_features=False, copy_binary=True,
+                remove_if_exists=True, **job_kwargs)
 
 
 # %% Reload from PHY after manual curation
 sorting_phy_curated = si.read_phy(folder_path=path_to_data_folder / 'phy_KS4/', exclude_cluster_groups=['noise'])
-
-# %% Alternative: load data already curated
-# NOT FUNCTIONAL: mismatch between labels imported and default params from Bombcell
-# Better to load raw data and re-run Bombcell labeling with default thresholds
-folder = Path("/home/paco/Desktop/ccu/code_data/course-ephys-osss/data/Mouse1/AL032/2019-11-21/Probe0/1/")
-
-# Load the sorting output (handles Phy/Kilosort structure)
-sorting = si.read_phy(folder)
-# Alternatively: sorting = si.read_kilosort(folder_path)
-
-# 1. Load precomputed Bombcell metrics
-bc_df = pd.read_parquet(f"{folder}/templates._bc_qMetrics.parquet")
-
-# 2. Check value counts of unit labels
-# (Bombcell stores unit types in 'bc_unitType' or similar column)
-if "bc_unitType" in bc_df.columns:
-    print("Bombcell Label Counts:")
-    print(bc_df["bc_unitType"].value_counts())
-elif "unitType" in bc_df.columns:
-    print(bc_df["unitType"].value_counts())
-
-# 3. Plot Metric Histograms (recalculates sw.plot_metric_histograms)
-# Select numerical metric columns to inspect
-metric_cols = [
-    col for col in bc_df.columns 
-    if bc_df[col].dtype in ['float64', 'int64', 'float32']
-][:12]  # plot first 12 metrics
-
-fig, axes = plt.subplots(3, 4, figsize=(15, 10))
-axes = axes.flatten()
-
-for i, col in enumerate(metric_cols):
-    sns.histplot(bc_df[col].dropna(), ax=axes[i], kde=True, color='skyblue')
-    axes[i].set_title(col, fontsize=10)
-    axes[i].set_xlabel('')
-
-plt.tight_layout()
-plt.suptitle("Precomputed Bombcell Metric Distributions", y=1.02, fontsize=14)
-plt.show()
-
-# Explicit mapping table for resolution
-COLUMN_MAPPING = {
-    'peak_to_trough_duration': ['peak_to_trough_duration'],
-    'waveform_baseline_flatness': ['waveformBaselineFlatness'],
-    'exp_decay': ['exp_decay'],
-    'snr': ['signalToNoiseRatio'],
-    'presence_ratio': ['presenceRatio'],
-}
-
-def find_column(df, si_key):
-    for candidate in COLUMN_MAPPING.get(si_key, [si_key]):
-        if candidate in df.columns:
-            return candidate
-    return None
-
-def check_pass(val, rule):
-    if pd.isna(val):
-        return False
-    if rule.get('abs', False):
-        val = abs(val)
-    if rule['greater'] is not None and val <= rule['greater']:
-        return False
-    if rule['less'] is not None and val >= rule['less']:
-        return False
-    return True
-
-def classify_row(row, df, params):
-    # 1. Noise check
-    for key, rule in params['noise'].items():
-        col = find_column(df, key)
-        if col is None: continue
-        val = row[col]
-        # Auto-adjust if duration is saved in milliseconds instead of seconds
-        if 'duration' in key and val > 0.1: 
-            val /= 1000.0
-        if not check_pass(val, rule):
-            return 'noise'
-
-    # 2. Non-somatic check
-    for key, rule in params['non-somatic'].items():
-        col = find_column(df, key)
-        if col is None: continue
-        val = row[col]
-        if 'width' in key and val > 0.1: 
-            val /= 1000.0
-        if not check_pass(val, rule):
-            return 'non-somatic'
-
-    # 3. MUA check
-    for key, rule in params['mua'].items():
-        col = find_column(df, key)
-        if col is None: continue
-        val = row[col]
-        # Adjust amplitude cutoff if expressed as percentage (0-100) instead of fraction (0-1)
-        if key == 'amplitude_cutoff' and val > 1.0: 
-            val /= 100.0
-        if not check_pass(val, rule):
-            return 'mua'
-
-    return 'good'
-
-# Apply classification to all cells
-default_params = sc.bombcell_get_default_thresholds()
-bc_df['bombcell_label'] = bc_df.apply(lambda row: classify_row(row, bc_df, default_params), axis=1)
-
-# Summary output
-print("--- Classification Results ---")
-print(bc_df['bombcell_label'].value_counts())
-
-# 4. Plot UpSet Plot for Rejection Criteria (recalculates sw.plot_bombcell_labels_upset)
-# Bombcell boolean pass/fail columns usually start with 'use' or 'pass' or 'is'
-boolean_cols = [col for col in bc_df.columns if bc_df[col].dtype == 'bool']
-
-if boolean_cols:
-    # Invert pass flags to highlight fail criteria for UpSet plot
-    fail_df = ~bc_df[boolean_cols]
-    
-    # Generate UpSet plot
-    upset_data = from_indicators(fail_df)
-    plot_upset(upset_data, subset_size='count', show_counts=True)
-    plt.suptitle("Bombcell Rejection Criteria Overlap", y=1.02)
-    plt.show()
