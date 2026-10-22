@@ -200,6 +200,14 @@ for shank_idx, shank_recording in split_recording.items():
 """
 
 # Sorting via Kilosort4
+# Reload the preprocessed shanks saved above, so this cell can run in a fresh kernel
+# (only the first cell is needed before it). Keys are the shank indices, as in split_recording.
+saved_recordings = {
+    int(shank_folder.name.removeprefix("shank_")): si.load(shank_folder)
+    for shank_folder in sorted((path_to_data_folder / "preprocessed_").glob("shank_*"))
+}
+print(saved_recordings)
+
 # One sorting per shank, keyed by shank index, run on the saved preprocessed data
 # (so the preprocessing chain is not recomputed on the fly)
 sortings = {}
@@ -208,7 +216,9 @@ for shank_idx, shank_recording in saved_recordings.items():
     sortings[shank_idx] = si.run_sorter(
         "kilosort4",
         shank_recording,
+        clear_cache=True,
         folder=path_to_data_folder / f"kilosort4_output_shank{shank_idx}",
+        batch_size=30000,
         remove_existing_folder=True,
         do_CAR=False,
         highpass_cutoff=0.1,
@@ -309,10 +319,8 @@ extensions_dict = {
     'spike_locations': {},
     'unit_locations': {},
     'template_similarity': {},
-    'principal_components': {},
     'amplitude_scalings': {},
     'isi_histograms': {},
-    'quality_metrics': {},
     'template_metrics': {}
 }
 
