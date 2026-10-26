@@ -26,10 +26,14 @@ params = {  'legend.fontsize': 'large',
             }
 plt.rcParams.update(params)
 
+# CPU parallelism for SpikeInterface's chunked processing (saving, analyzer extensions...).
+# These steps are numpy-only, so this does not affect the GPU: Kilosort4 runs on the GPU
+# through torch_device in run_sorter below.
 n_cpus = os.cpu_count()
 n_jobs = max(1, n_cpus - 4)
 job_kwargs = dict(n_jobs=n_jobs, chunk_duration="1s", progress_bar=True)
 
+# %%
 
 """
 .##........#######.....###....########..####.##....##..######..
@@ -40,7 +44,6 @@ job_kwargs = dict(n_jobs=n_jobs, chunk_duration="1s", progress_bar=True)
 .##.......##.....##.##.....##.##.....##..##..##...###.##....##.
 .########..#######..##.....##.########..####.##....##..######..
 """
-
 
 # This should be the path to the folder containing
 # the data (.bin and .meta files linked above). 
@@ -91,9 +94,6 @@ si.plot_traces(
 )
 plt.show()
 
-
-# %% Bad channels and cutting the recording for faster processing
-
 # Checking for bad channels 
 bad_channel_ids, channel_labels = detect_bad_channels_per_shank(recording, method='coherence+psd')
 
@@ -103,7 +103,7 @@ print('\n Percentage of bad channels:', len(bad_channel_ids) / recording.get_num
 
 good_chn_recording = recording.remove_channels(bad_channel_ids)
 
-# Cutting
+# Cutting if needed for faster testing (e.g. 5 minutes)
 # fs = recording.get_sampling_frequency()
 # recording_sub = recording.frame_slice(start_frame=0*fs, end_frame=300*fs)
 # recording_sub
@@ -158,21 +158,25 @@ for shank_idx, shank_recording in split_recording.items():
     )
     ax[shank_idx].set_title(f"Shank: {shank_idx}")
 
-# Motion correction - DOESNT APPLY CLEANUP, JUST FOR VIZ
-rec_corrected, motion_info = spre.correct_motion(
+# Motion correction - DOESNT APPLY CLEANUP, JUST FOR VIZ 
+saved_corrected, motion_info = {}, {}
+for shank_idx, shank_recording in split_recording.items():
+
+    saved_corrected[shank_idx], motion_info[shank_idx] = spre.correct_motion(
     shank_recording,
     preset="dredge_fast",
     output_motion_info=True,
     # turn off non-rigid estimation
-    estimate_motion_kwargs={"rigid": True},  
-)
-print(rec_corrected)
+    estimate_motion_kwargs={"rigid": True},)
 
-# Display the motion output: drift map + estimated motion over depth/time.
+    print(saved_corrected[shank_idx])
+
+
+# Display the motion output: drift map + estimated motion over depth/time ON ONE SHANK
 fig = plt.figure(figsize=(14, 8))
 sw.plot_motion_info(
     motion_info,
-    recording=rec_corrected,
+    recording=saved_corrected[shank_idx],
     figure=fig,
     color_amplitude=True,
     amplitude_cmap="inferno",
@@ -210,39 +214,76 @@ print(saved_recordings)
 
 # One sorting per shank, keyed by shank index, run on the saved preprocessed data
 # (so the preprocessing chain is not recomputed on the fly)
+# CHANGE IN CASE YOU WANT TO SORT ALL OF THE SHANKS TOGETHER 
+# (e.g. for a single shank probe, or if you want to allow units to span shanks)
 sortings = {}
 for shank_idx, shank_recording in saved_recordings.items():
 
     sortings[shank_idx] = si.run_sorter(
         "kilosort4",
         shank_recording,
-        clear_cache=True,
+        torch_device="cuda",  # fail loudly instead of silently falling back to the CPU
+        clear_cache=False,  # True frees GPU memory between steps but is slower; set True only on CUDA OOM
         folder=path_to_data_folder / f"kilosort4_output_shank{shank_idx}",
-        batch_size=30000,
+        batch_size=30000, # For a 4GB GPU, default is 60k, lambda can hold more
         remove_existing_folder=True,
-        do_CAR=False,
+        do_CAR=False, # avoid double-referencing, since we already did it in the preprocessing step
         highpass_cutoff=0.1,
     )
-
-# one analyzer, a sorting per shank
-analyzer = si.create_sorting_analyzer(
-    sorting=sortings,
-    recording=saved_recordings,
-    set_sparsity_by_dict_key=True, # each unit's waveforms restricted to its own shank
-    **job_kwargs,
-)
 
 for shank_idx, sorting in sortings.items():
     print(f"Shank {shank_idx}: {sorting}")
 
-# if you need to have the analyzer on only one shank, you can do:
-# keys = analyzer.get_sorting_property("aggregation_key")
-# analyzer_shank0 = analyzer.select_units(analyzer.unit_ids[keys == 0])
+# %% Analyzer for the Kilosort4 sorting: built once, saved to disk, reloaded afterwards
+# Use it standalone when you don't want to re-run the sorting, it reads the Kilosort4
+# outputs (if available) and the preprocessed shanks saved above.
+analyzer_folder = path_to_data_folder / "analyzer_KS4"
 
-# %% Alternative: load an existing sorting (Kilosort4 / IBL-sorter) instead of re-sorting
+if analyzer_folder.exists():
+    analyzer = si.load_sorting_analyzer(analyzer_folder)
+else:
+    saved_recordings = {
+        int(shank_folder.name.removeprefix("shank_")): si.load(shank_folder)
+        for shank_folder in sorted((path_to_data_folder / "preprocessed_").glob("shank_*"))
+    }
+    # Kilosort4 can place a few spikes just past the end of the recording, which breaks
+    # waveform extraction, so drop them
+    sortings = {
+        shank_idx: si.remove_excess_spikes(
+            si.read_sorter_folder(path_to_data_folder / f"kilosort4_output_shank{shank_idx}"),
+            shank_recording,
+        )
+        for shank_idx, shank_recording in saved_recordings.items()
+    }
+    # One analyzer for all shanks (units get unique ids, shank in the "aggregation_key" property).
+    # Default radius sparsity (~25 channels per unit) keeps each unit on its own shank; the
+    # binary_folder format keeps extensions on disk instead of RAM and saves them as they are computed.
+    analyzer = si.create_sorting_analyzer(
+        sorting=sortings,
+        recording=saved_recordings,
+        format="binary_folder",
+        folder=analyzer_folder,
+        **job_kwargs,
+    )
+
+print(analyzer)
+
+# %%
+
+"""
+.##........#######.....###....########......######...#######..########..########
+.##.......##.....##...##.##...##.....##....##....##.##.....##.##.....##....##...
+.##.......##.....##..##...##..##.....##....##.......##.....##.##.....##....##...
+.##.......##.....##.##.....##.##.....##.....######..##.....##.########.....##...
+.##.......##.....##.#########.##.....##..........##.##.....##.##...##......##...
+.##.......##.....##.##.....##.##.....##....##....##.##.....##.##....##.....##...
+.########..#######..##.....##.########......######...#######..##.....##....##...
+"""
+
+# Alternative: load an existing sorting (Kilosort4 / IBL-sorter) instead of re-sorting
 # Works on any Kilosort/Phy-style folder (spike_times.npy, spike_clusters.npy, params.py, ...),
 # An ALF-converted IBL folder (spikes.samples.npy, clusters.*.npy) is also accepted.
-path_to_sorting_output = Path("/media/paco/Data/Behav_28-7_11268_day2_dopa/myRun22_g0/myRun22_g0_imec0/")  # <- folder with params.py
+path_to_sorting_output = Path("/media/paco/Data/Behav_2-8_11268_day7_sal_dls/myRun22_g0/myRun22_g0_imec0")  # <- folder with params.py
 path_to_raw_data = path_to_sorting_output  # <- folder with the .ap.bin/.ap.meta it was sorted from
 
 def load_existing_sorting(sorter_folder, sampling_frequency):
@@ -312,19 +353,23 @@ print(analyzer)
 extensions_dict = {
     'random_spikes': {},
     'templates': {},
-    'waveforms': {},
     'noise_levels': {},
     'correlograms': {},
     'spike_amplitudes': {},
     'spike_locations': {},
     'unit_locations': {},
     'template_similarity': {},
-    'amplitude_scalings': {},
     'isi_histograms': {},
-    'template_metrics': {}
+    'template_metrics': {},
+    'quality_metrics': {'skip_pc_metrics': True},  # PCA-based metrics are slow and not used by Bombcell
 }
 
-analyzer.compute(extensions_dict)
+# Only compute what is missing, so a reloaded analyzer resumes where it stopped.
+# Computing an extension deletes the ones that depend on it (e.g. spike_amplitudes ->
+# quality_metrics), so loop until nothing is missing.
+while missing_extensions := {name: params for name, params in extensions_dict.items() if not analyzer.has_extension(name)}:
+    print("computing:", list(missing_extensions))
+    analyzer.compute(missing_extensions, **job_kwargs)
 
 # BOMBSHELL !!
 bombcell_default_thresholds = sc.bombcell_get_default_thresholds()
@@ -367,3 +412,294 @@ si.export_to_phy(analyzer, output_folder=path_to_data_folder / 'phy_KS4',
 
 # %% Reload from PHY after manual curation
 sorting_phy_curated = si.read_phy(folder_path=path_to_data_folder / 'phy_KS4/', exclude_cluster_groups=['noise'])
+
+# %%
+"""
+.##.....##.##....##.####.########....##.....##....###....########..######..##.....##
+.##.....##.###...##..##.....##.......###...###...##.##......##....##....##.##.....##
+.##.....##.####..##..##.....##.......####.####..##...##.....##....##.......##.....##
+.##.....##.##.##.##..##.....##.......##.###.##.##.....##....##....##.......#########
+.##.....##.##..####..##.....##.......##.....##.#########....##....##.......##.....##
+.##.....##.##...###..##.....##.......##.....##.##.....##....##....##....##.##.....##
+..#######..##....##.####....##.......##.....##.##.....##....##.....######..##.....##
+"""
+
+import UnitMatchPy.default_params as default_params
+import UnitMatchPy.utils as util
+import UnitMatchPy.overlord as ov
+import UnitMatchPy.bayes_functions as bf
+from DeepUnitMatch.utils import param_fun
+from DeepUnitMatch.testing import test
+import UnitMatchPy.assign_unique_id as aid
+import UnitMatchPy.save_utils as su
+import UnitMatchPy.metric_functions as mf
+from DeepUnitMatch.utils import helpers
+
+# ======================
+# User inputs (edit me)
+# ======================
+
+# Paths to the Kilosort output directories (one per session)
+KS_dirs = [r"Path\To\DeepUnitMatchExampleData\AL032\2019-11-21\Probe0\1", r"Path\To\DeepUnitMatchExampleData\AL032\2019-11-22\Probe0\1"]
+
+# Where to save final results
+save_dir = r"Path\To\Save\Dir"  # specify your save path here.
+# Temporary folder for DeepUnitMatch preprocessed HDF5s (creates `processed_waveforms/` inside).
+# This folder is cleared between runs — do not use it for anything you want to keep.
+tmp_path = r"Path\To\Tmp\Dir"
+
+# Model/inference settings
+device = "cpu"
+
+# Matching threshold (lower threshold -> more matches but also more false positives) - recommended 0.5
+match_thresh = 0.5
+
+# note, if the RawWaveforms does not yet exist, check extract_raw_data_demo.ipynb
+# make sure RawWaveforms are of appropriate size when using our trained DeepUnitMatch model 
+# (spike_width 82, samples_before 20, samples_after 61)
+
+# %% Getting the data the same way as UnitMatch
+
+# Get default parameters, can add your own before or after!
+param = {}
+param["KS_dirs"] = KS_dirs
+param = default_params.get_default_param(param=param)
+# param['spike_width'] = 61 # change if necessary!
+# KS_dirs is defined in the "User inputs" cell above
+wave_paths, unit_label_paths, channel_pos = util.paths_from_KS(
+    KS_dirs
+)  # note, if the RawWaveforms does not yet exist, check extract_raw_data_demo.ipynb
+param = util.get_probe_geometry(channel_pos[0], param)
+
+# STEP 0 from the UMPy example notebook
+waveform, session_id, session_switch, within_session, good_units, param = (
+    util.load_good_waveforms(wave_paths, unit_label_paths, param, good_units_only=True)
+)
+param["good_units"] = good_units
+
+# %% Preprocess the DeepUnitMatch way and save as HDF5 files for each session in 'processed_waveforms'.
+
+# tmp_path is defined in the "User inputs" cell above
+unit_ids = np.concatenate(
+    param["good_units"]
+).squeeze()  # cluster IDs in the same order as `waveform`
+snippets, positions, kept_idx = param_fun.get_snippets(
+    waveform,
+    channel_pos,
+    session_id,
+    save_path=tmp_path,
+    unit_ids=unit_ids,
+    param=param,
+)
+
+# If any units were rejected (bad waveform shape), re-sync all per-unit arrays so that
+# waveform, session_id, session_switch and good_units all match the saved HDF5 files.
+if len(kept_idx) < len(waveform):
+    waveform, session_id, session_switch, within_session, good_units, param = (
+        util.filter_units_by_index(
+            waveform, session_id, session_switch, good_units, kept_idx, param
+        )
+    )
+
+# Load the neural net
+model = test.load_trained_model(device=device)
+
+# We have stored the preprocessed data here (from the get_snippets function)
+data_dir = os.path.join(tmp_path, "processed_waveforms")
+
+# Pass the preprocessed data through the neural net
+sim_matrix = test.inference(model, data_dir)
+
+# Visualise the similarity matrix
+plt.imshow(sim_matrix, cmap="viridis", aspect="auto")
+plt.colorbar()
+
+# %% Use the same Naive Bayes as in UnitMatchPy
+
+clus_info = {
+    "good_units": param["good_units"],
+    "session_switch": session_switch,
+    "session_id": session_id,
+    "original_ids": np.concatenate(param["good_units"]),
+}
+extracted_wave_properties = ov.extract_parameters(
+    waveform, channel_pos, clus_info, param
+)  # contains spatial locations
+within_session = 1 - (session_id[:, None] == session_id).astype(int)
+sessions = np.unique(session_id)
+match_dfs = []
+probs = np.zeros(sim_matrix.shape)
+distance_matrix = np.zeros(sim_matrix.shape)
+
+for r1 in sessions:
+    for r2 in sessions:
+        if r1 >= r2:
+            continue
+
+        mask = np.isin(session_id, [r1, r2])
+        sim_mat = sim_matrix[mask][:, mask]
+        n = np.sum(mask)
+        n_units_r1 = session_switch[r1 + 1] - session_switch[r1]
+        n_units_r2 = session_switch[r2 + 1] - session_switch[r2]
+        session_switch_pair = np.array([0, n_units_r1, n_units_r1 + n_units_r2])
+
+        indices = np.where(np.isin(session_id, [r1, r2]))[0]
+        df = helpers.create_dataframe(
+            [param["good_units"][r1], param["good_units"][r2]],
+            sim_mat,
+            session_list=[r1, r2],
+        )
+        matches = test.get_matches(
+            df, sim_mat, session_id[indices], data_dir, dist_thresh=50
+        )
+
+        labels = np.eye(sim_mat.shape[0])
+        subsessionid = np.array(
+            [r1] * len(param["good_units"][r1]) + [r2] * len(param["good_units"][r2])
+        )
+        for (recses1, recses2), group in matches.groupby(by=["RecSes1", "RecSes2"]):
+            asmatrix = (
+                group["match"]
+                .values.reshape(
+                    len(param["good_units"][recses1]), len(param["good_units"][recses2])
+                )
+                .astype(int)
+            )
+            labels[np.ix_(subsessionid == recses1, subsessionid == recses2)] = asmatrix
+
+        # Visualize centroid distances for this session pair
+        plt.figure(figsize=(10, 4))
+        plt.subplot(1, 2, 1)
+        plt.imshow(labels, cmap="viridis", aspect="auto")
+        plt.title("labels")
+        plt.colorbar()
+        plt.tight_layout()
+
+        avg_centroid, avg_waveform_per_tp = (
+            extracted_wave_properties["avg_centroid"][:, mask, :],
+            extracted_wave_properties["avg_waveform_per_tp"][:, mask, :, :],
+        )
+        avg_waveform_per_tp = mf.drift_correct_session_pair(
+            labels.astype(bool),
+            session_switch_pair,
+            avg_centroid,
+            avg_waveform_per_tp,
+            0,
+            param,
+        )
+        avg_waveform_per_tp_flip = mf.flip_dim(avg_waveform_per_tp, param, n)
+        euclid_dist = mf.get_Euclidean_dist(avg_waveform_per_tp_flip, param, n)
+        centroid_dist, _ = mf.centroid_metrics(euclid_dist, param)
+        # Visualize centroid distances for this session pair
+        plt.subplot(1, 2, 2)
+        plt.imshow(centroid_dist, cmap="viridis", aspect="auto")
+        plt.title(f"Centroid dist: sessions {r1}-{r2}")
+        plt.colorbar()
+        plt.tight_layout()
+        scores_to_incl = {
+            "similarity": sim_mat,
+            "distance": centroid_dist,
+        }
+
+        n_units = int(np.sqrt(len(df)))
+        priors = np.array([1 - 2 / n_units, 2 / n_units])
+        parameter_kernels = bf.get_parameter_kernels(
+            scores_to_incl, labels, np.unique(labels), param
+        )
+        predictors = np.stack([scores for scores in scores_to_incl.values()], axis=2)
+        probability = bf.apply_naive_bayes(
+            parameter_kernels, priors, predictors, param, np.unique(labels)
+        )
+        prob_matrix = probability[:, 1].reshape(n_units, n_units)
+        # Debug: verify shapes match before assignment
+        target_shape = np.ix_(mask, mask)
+        target_rows = np.where(mask)[0]
+        if prob_matrix.shape != centroid_dist.shape:
+            print(
+                f"  WARNING: Shape mismatch! prob_matrix={prob_matrix.shape} vs centroid_dist={centroid_dist.shape}"
+            )
+        probs[np.ix_(mask, mask)] = prob_matrix
+        distance_matrix[np.ix_(mask, mask)] = centroid_dist
+
+plt.imshow(probs, cmap="viridis", aspect="auto")
+plt.colorbar()
+
+util.evaluate_output(probs, param, within_session, session_switch, match_threshold=match_thresh)
+
+# Process the output probability matrix to get final set of matches (across sessions)
+# thresh is defined in the "User inputs" cell above
+final_matches = test.directional_filter_matrix(probs, session_id, match_thresh)
+plt.imshow(final_matches, cmap="viridis")
+plt.colorbar()
+
+# Divide final number of matches by 2 to account for double counting in the matrix
+print(
+    f" Found {np.sum(final_matches) // 2} matches in these sessions using the threshold of {match_thresh}."
+)
+
+# %% Check performance using the AUC. This tests the agreement between DeepUnitMatch matches and functional scores.
+isicorr = test.ISI_correlations(param)
+auc_isi = test.AUC(final_matches, isicorr, session_id)
+print(f"AUC (ISI correlations):            {auc_isi:.3f}")
+
+refpopcorr = test.refpop_correlations(param)
+auc_refpop = test.AUC(final_matches, refpopcorr, session_id)
+print(f"AUC (ref. pop. correlation):       {auc_refpop:.3f}")
+
+frdiff = test.FR_diff(param)
+auc_fr = test.AUC(
+    final_matches, -frdiff, session_id
+)  # negate: lower FRDiff = better match
+print(f"AUC (firing rate difference):      {auc_fr:.3f}")
+
+cvdiff = test.ISI_CV_diff(param)
+auc_cv = test.AUC(
+    final_matches, -cvdiff, session_id
+)  # negate: lower CVDiff = better match
+print(f"AUC (ISI CV difference):           {auc_cv:.3f}")
+
+# Natural image correlations require specific stimulus data that isn't always available,
+# so this AUC is optional and skipped gracefully if it can't be computed.
+try:
+    natimcorr = test.natim_correlations(param)
+    reliability = np.diag(
+        natimcorr
+    )  # Extract the diagonal (self-correlations) as reliability scores
+    natimcorr[reliability < 0.2, :] = np.nan  # Set rows with low reliability to NaN
+    natimcorr[:, reliability < 0.2] = np.nan  # Set columns with low reliability to NaN
+    auc_natim = test.AUC(final_matches, natimcorr, session_id)
+    print(f"AUC (natim correlations):          {auc_natim:.3f}")
+except Exception as e:
+    print(f"AUC (natim correlations):          skipped ({e})")
+
+# %% Finally, we can do tracking using the UnitMatch tracking function. This assigns unique IDs to the neurons that will persist across many sessions.
+
+UIDs = aid.assign_unique_id(probs, param, clus_info)
+
+# Save the results
+# save_dir is defined in the "User inputs" cell above
+amplitude = extracted_wave_properties["amplitude"]
+spatial_decay = extracted_wave_properties["spatial_decay"]
+avg_centroid = extracted_wave_properties["avg_centroid"]
+avg_waveform = extracted_wave_properties["avg_waveform"]
+avg_waveform_per_tp = extracted_wave_properties["avg_waveform_per_tp"]
+wave_idx = extracted_wave_properties["good_wave_idxs"]
+max_site = extracted_wave_properties["max_site"]
+max_site_mean = extracted_wave_properties["max_site_mean"]
+su.save_to_output(
+    save_dir,
+    {"distance": distance_matrix},
+    np.argwhere(final_matches),
+    probs,
+    avg_centroid,
+    avg_waveform,
+    avg_waveform_per_tp,
+    max_site,
+    distance_matrix,
+    final_matches,
+    clus_info,
+    param,
+    UIDs=UIDs,
+    matches_curated=None,
+    save_match_table=True,
+)
