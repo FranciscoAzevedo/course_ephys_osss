@@ -47,7 +47,7 @@ job_kwargs = dict(n_jobs=n_jobs, chunk_duration="1s", progress_bar=True)
 
 # This should be the path to the folder containing
 # the data (.bin and .meta files linked above). 
-path_to_data_folder = Path("/media/paco/Data/sofias_cable_animal_I_g0/sofias_cable_animal_I_g0_imec0")
+path_to_data_folder = Path("D:\\tests_run\\G_first_try\\sofias_cable_animal_I_g0\\sofias_cable_animal_I_g0_imec0")
 
 def read_spikeglx_ap(folder):
     # NP2.0 quad-base probes (NP2020) save 1536 AP + 4 sync channels (snsApLfSy=1536,0,4).
