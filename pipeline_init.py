@@ -30,7 +30,7 @@ plt.rcParams.update(params)
 # These steps are numpy-only, so this does not affect the GPU: Kilosort4 runs on the GPU
 # through torch_device in run_sorter below.
 n_cpus = os.cpu_count()
-n_jobs = max(1, n_cpus - 4)
+n_jobs = max(1, n_cpus - 1)
 job_kwargs = dict(n_jobs=n_jobs, chunk_duration="1s", progress_bar=True)
 
 # %%
@@ -47,7 +47,7 @@ job_kwargs = dict(n_jobs=n_jobs, chunk_duration="1s", progress_bar=True)
 
 # This should be the path to the folder containing
 # the data (.bin and .meta files linked above). 
-path_to_data_folder = Path("/media/paco/Data/Prannays_ephys_test")
+path_to_data_folder = Path("/media/paco/Data/sofias_cable_animal_I_g0/sofias_cable_animal_I_g0_imec0")
 
 def read_spikeglx_ap(folder):
     # NP2.0 quad-base probes (NP2020) save 1536 AP + 4 sync channels (snsApLfSy=1536,0,4).
@@ -60,7 +60,8 @@ def read_spikeglx_ap(folder):
 
 def detect_bad_channels_per_shank(rec, **kwargs):
     # coherence+psd compares each channel with its neighbours along depth. On a multi-shank
-    # probe, ordering all channels by (x, y) interleaves the shanks, so run it per shank.
+    # probe, ordering all channels by (x, y) interleaves the shanks, so run it per shank
+    # (a single-shank probe has one group, so this is a single call).
     # Labels are returned in the channel order of `rec`.
     bad_channel_ids = []
     channel_labels = np.empty(rec.get_num_channels(), dtype=object)
@@ -83,6 +84,11 @@ probe = recording.get_probe()
 
 plot_probe(probe)
 plt.show()
+
+# Shanks are read from the "group" channel property (one group per shank; a single-shank
+# probe has a single group 0). Everything below is split by group, so it works for both.
+n_shanks = len(np.unique(recording.get_property("group")))
+print(f"{n_shanks} shank(s) detected:", "multi-shank" if n_shanks > 1 else "single-shank", "probe")
 
 # 0.1 seconds of data from our raw recording
 start_time = recording.get_times()[0]
@@ -142,23 +148,24 @@ si.plot_traces(
 )
 plt.show()
 
-# Splitting and plotting data by shank
+# Splitting and plotting data by shank (a single-shank probe gives one entry, {0: recording})
 split_recording = cmr_recording.split_by("group")
 print(split_recording) # check if the groups match the ones defined in your geometry!
 
-fig, ax = plt.subplots(1, len(split_recording.items()))
+# squeeze=False so axes is always 2D, also with a single shank
+fig, axes = plt.subplots(1, len(split_recording), squeeze=False)
 
-for shank_idx, shank_recording in split_recording.items():
+for ax, (shank_idx, shank_recording) in zip(axes[0], split_recording.items()):
 
     si.plot_traces(
         shank_recording,
         return_in_uV=True,
         order_channel_by_depth=True,
-        ax=ax[shank_idx]
+        ax=ax
     )
-    ax[shank_idx].set_title(f"Shank: {shank_idx}")
+    ax.set_title(f"Shank: {shank_idx}")
 
-# Motion correction - DOESNT APPLY CLEANUP, JUST FOR VIZ 
+# Motion correction - DOESNT APPLY CLEANUP, JUST FOR VIZ
 saved_corrected, motion_info = {}, {}
 for shank_idx, shank_recording in split_recording.items():
 
@@ -172,20 +179,22 @@ for shank_idx, shank_recording in split_recording.items():
     print(saved_corrected[shank_idx])
 
 
-# Display the motion output: drift map + estimated motion over depth/time ON ONE SHANK
-fig = plt.figure(figsize=(14, 8))
-sw.plot_motion_info(
-    motion_info,
-    recording=saved_corrected[shank_idx],
-    figure=fig,
-    color_amplitude=True,
-    amplitude_cmap="inferno",
-    scatter_decimate=10,
-)
-fig.suptitle("Motion correction output")
+# Display the motion output: drift map + estimated motion over depth/time, one figure per shank
+for shank_idx in motion_info:
+    fig = plt.figure(figsize=(14, 8))
+    sw.plot_motion_info(
+        motion_info[shank_idx],
+        recording=saved_corrected[shank_idx],
+        figure=fig,
+        color_amplitude=True,
+        amplitude_cmap="inferno",
+        scatter_decimate=10,
+    )
+    fig.suptitle(f"Motion correction output - shank {shank_idx}")
 
 # Save preprocessed recording here
-# One saved recording per shank, keyed by shank index (same keys as split_recording)
+# One saved recording per shank, keyed by shank index (same keys as split_recording).
+# A single-shank probe is saved the same way, as preprocessed_/shank_0.
 saved_recordings = {}
 for shank_idx, shank_recording in split_recording.items():
 
@@ -213,9 +222,10 @@ saved_recordings = {
 print(saved_recordings)
 
 # One sorting per shank, keyed by shank index, run on the saved preprocessed data
-# (so the preprocessing chain is not recomputed on the fly)
-# CHANGE IN CASE YOU WANT TO SORT ALL OF THE SHANKS TOGETHER 
-# (e.g. for a single shank probe, or if you want to allow units to span shanks)
+# (so the preprocessing chain is not recomputed on the fly). A single-shank probe is a
+# single run, saved in kilosort4_output_shank0.
+# CHANGE IN CASE YOU WANT TO SORT ALL OF THE SHANKS TOGETHER
+# (e.g. if you want to allow units to span shanks)
 sortings = {}
 for shank_idx, shank_recording in saved_recordings.items():
 
@@ -255,12 +265,21 @@ else:
         )
         for shank_idx, shank_recording in saved_recordings.items()
     }
-    # One analyzer for all shanks (units get unique ids, shank in the "aggregation_key" property).
-    # Default radius sparsity (~25 channels per unit) keeps each unit on its own shank; the
-    # binary_folder format keeps extensions on disk instead of RAM and saves them as they are computed.
+    # Multi-shank: one analyzer for all shanks (units get unique ids, shank in the
+    # "aggregation_key" property). Default radius sparsity (~25 channels per unit) keeps each
+    # unit on its own shank.
+    # Single-shank: the shank's sorting and recording are passed directly, so unit ids stay
+    # the Kilosort4 cluster ids and the recording stays a single binary file.
+    # The binary_folder format keeps extensions on disk instead of RAM and saves them as they are computed.
+    if len(saved_recordings) > 1:
+        analyzer_sorting, analyzer_recording = sortings, saved_recordings
+    else:
+        (shank_idx,) = saved_recordings
+        analyzer_sorting, analyzer_recording = sortings[shank_idx], saved_recordings[shank_idx]
+
     analyzer = si.create_sorting_analyzer(
-        sorting=sortings,
-        recording=saved_recordings,
+        sorting=analyzer_sorting,
+        recording=analyzer_recording,
         format="binary_folder",
         folder=analyzer_folder,
         **job_kwargs,
@@ -314,10 +333,15 @@ loaded_bad_channel_ids, _ = detect_bad_channels_per_shank(loaded_preprocessed, m
 print("bad_channel_ids", loaded_bad_channel_ids)
 loaded_preprocessed = spre.interpolate_bad_channels(loaded_preprocessed, loaded_bad_channel_ids)
 
-# Reference each shank separately, then re-join them into one recording
-loaded_preprocessed = si.aggregate_channels(
-    [si.common_reference(shank_rec, operator="median") for shank_rec in loaded_preprocessed.split_by("group").values()]
-)
+# Multi-shank: reference each shank separately, then re-join them into one recording.
+# Single-shank: reference the whole probe.
+loaded_shank_recordings = loaded_preprocessed.split_by("group")
+if len(loaded_shank_recordings) > 1:
+    loaded_preprocessed = si.aggregate_channels(
+        [si.common_reference(shank_rec, operator="median") for shank_rec in loaded_shank_recordings.values()]
+    )
+else:
+    loaded_preprocessed = si.common_reference(loaded_preprocessed, operator="median")
 
 # Sanity checks: same sampling rate and spikes inside the recording
 assert np.isclose(sorting.get_sampling_frequency(), loaded_preprocessed.get_sampling_frequency()), (
@@ -401,9 +425,10 @@ _ = sw.plot_bombcell_labels_upset(analyzer, unit_labels=bombcell_labels["bombcel
 """
 
 # One Phy folder for the whole probe, from the analyzer (all shanks; Phy gets the
-# shank of each channel from channel_groups.npy). The analyzer's recording is an aggregation
-# of the per-shank saved recordings rather than a single binary file, so with
-# copy_binary=False Phy has no raw data (dat_path = None): templates/features only.
+# shank of each channel from channel_groups.npy). On a multi-shank probe the analyzer's
+# recording is an aggregation of the per-shank saved recordings rather than a single binary
+# file, so with copy_binary=False Phy has no raw data (dat_path = None): templates/features only.
+# On a single-shank probe Phy can point at the saved binary directly with copy_binary=False.
 # Set copy_binary=True to write a recording.dat for Phy's trace/raw-waveform views.
 si.export_to_phy(analyzer, output_folder=path_to_data_folder / 'phy_KS4',
                 compute_amplitudes=False, compute_pc_features=False, copy_binary=True,
